@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class CurrencyConversionService implements ICurrencyConversionService {
+
     @Override
     public Double calculate(Double money) {
         return money*23000;

@@ -6,9 +6,10 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+
 @Repository
 public class DictionaryRepository implements IDictionaryRepository {
-   private static List<Dictionary> dictionaries = new ArrayList<>();
+    private static List<Dictionary> dictionaries = new ArrayList<>();
 
     static {
         dictionaries.add(new Dictionary("dog", "Con chó Này!"));
@@ -18,10 +19,11 @@ public class DictionaryRepository implements IDictionaryRepository {
         dictionaries.add(new Dictionary("computer", "máy tính"));
         dictionaries.add(new Dictionary("mouse", "Con chuột Này!"));
     }
+
     @Override
     public String search(String word) {
-        for (Dictionary dic : dictionaries){
-            if(word.toLowerCase().equals(dic.getEnglish())){
+        for (Dictionary dic : dictionaries) {
+            if (word.toLowerCase().equals(dic.getEnglish())) {
                 return dic.getVietnamese();
             }
         }

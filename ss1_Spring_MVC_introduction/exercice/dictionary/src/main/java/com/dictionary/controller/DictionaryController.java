@@ -18,7 +18,7 @@ public class DictionaryController {
     }
 
     @GetMapping("/search")
-    public ModelAndView search(@RequestParam String word){
+    public ModelAndView search(@RequestParam String word) {
         return new ModelAndView("dictionary", "result", iDictionaryService.search(word));
     }
 
