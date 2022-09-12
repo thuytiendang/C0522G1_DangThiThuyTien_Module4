@@ -17,13 +17,11 @@ public class CalculatorController {
 
     @GetMapping("/")
     public String showCalculator() {
-
         return "calculator";
     }
 
     @RequestMapping("/calculate")
     public ModelAndView calculator(@RequestParam String number1, String number2, String calculator) {
-
         return new ModelAndView("calculator", "result", iCalculatorService.calculate(number1, number2, calculator));
     }
 }

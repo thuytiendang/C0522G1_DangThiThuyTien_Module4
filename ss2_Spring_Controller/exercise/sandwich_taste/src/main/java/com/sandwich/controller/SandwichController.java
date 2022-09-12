@@ -11,13 +11,11 @@ public class SandwichController {
 
     @GetMapping("/")
     public String showList() {
-
         return "taste";
     }
 
     @RequestMapping("/save")
     public ModelAndView save(@RequestParam(value = "condiment", defaultValue = "") String[] arr) {
-
         if (arr.length == 0) {
             return new ModelAndView("taste", "condiment", "You have not chosen!");
         } else {

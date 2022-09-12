@@ -8,8 +8,8 @@ public class CalculatorService implements ICalculatorService {
 
     @Override
     public String calculate(String num1, String num2, String calculator) {
-
         try {
+
             double number1 = Double.parseDouble(num1);
             double number2 = Double.parseDouble(num2);
             double result = 0;
@@ -33,7 +33,6 @@ public class CalculatorService implements ICalculatorService {
             }
 
             return String.valueOf(result);
-
         } catch (NumberFormatException e) {
             return "not allow to input text!";
         }
