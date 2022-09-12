@@ -12,9 +12,9 @@
 </head>
 <body>
 <form action="/exchange" method="get">
-<input value="usd" type="number" name="money" placeholder="Input money">
+    <input value="usd" type="number" name="money" placeholder="Input money">
     <button type="submit">change</button>
-<input value="${result}" type="number" disabled>
+    <input value="${result}" type="number" disabled>
 </form>
 </body>
 </html>

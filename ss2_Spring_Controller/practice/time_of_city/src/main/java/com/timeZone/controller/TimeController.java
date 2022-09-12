@@ -10,7 +10,8 @@ import java.util.TimeZone;
 
 @Controller
 public class TimeController {
-    @GetMapping("/world-clock")
+
+    @GetMapping("/")
     public String getTimeByTimezone(ModelMap model, @RequestParam(name = "city", required = false,
             defaultValue = "Asia/Ho_Chi_Minh") String city) {
 
