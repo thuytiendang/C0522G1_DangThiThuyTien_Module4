@@ -48,7 +48,7 @@ public class ProductController {
 
     @PostMapping("/update")
     public String update(Product product, RedirectAttributes redirectAttributes) {
-        iProductService.update(product.getId(), product);
+        iProductService.update(product);
         redirectAttributes.addFlashAttribute("mess", "Update product successfully!");
         return "redirect:/";
     }
