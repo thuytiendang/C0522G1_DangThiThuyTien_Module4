@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Delete Vlog</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+</head>
+<body>
+<form th:action="@{/delete}" th:object="${vlog}" method="post">
+    <table class="table table-striped">
+        <tr>
+            <td colspan="2" style="color: crimson">Delete music</td>
+        </tr>
+        <input type="hidden" th:field="*{id}"/>
+        <tr>
+            <td><label>Title:</label></td>
+            <td><input type="text" th:field="*{title}"/></td>
+        </tr>
+        <tr>
+            <td><label>Writer:</label></td>
+            <td><input type="text" th:field="*{writer}"/></td>
+        </tr>
+        <tr>
+            <td><label>Created Date:</label></td>
+            <td><input type="text" th:field="*{createdDate}"/></td>
+        </tr>
+        <tr>
+            <td><label>Content:</label></td>
+            <td><input type="text" th:field="*{content}"/></td>
+        </tr>
+        <tr>
+            <td colspan="2" style="color: crimson"><input type="submit" value="Remove"/></td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>
