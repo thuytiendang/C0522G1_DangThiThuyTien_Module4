@@ -10,39 +10,94 @@
             crossorigin="anonymous"></script>
 </head>
 <body>
-<h1 style="color: blue; text-align: center">VLOG List</h1>
-<div class="notify" style="text-align: center">
-    <div th:if="${mess}">
-        <span th:text="${mess}"></span>
+<div class="container">
+    <h3 class="text-center" style="color: darkviolet">VLOG LIST</h3>
+    <form th:action="@{search}" method="get">
+        <div class="row">
+            <div class="row col-2">
+                <a href="/create" class="btn btn-primary text-decoration-none">Add new Vlog</a>
+            </div>
+            <div class="input-group w-25">
+                <input type="text" name="title" class="form-control form-control-sm" placeholder="Input name"
+                       aria-label="Recipient's username" aria-describedby="button-addon2">
+                <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Search</button>
+            </div>
+        </div>
+    </form>
+
+    <div class="notify" style="text-align: center; color: red">
+        <div th:if="${mess}">
+            <span th:text="${mess}"></span>
+        </div>
     </div>
+    <table class="table table-striped" id="productTable">
+        <thead>
+        <tr>
+                    <th>Number</th>
+                    <th>Title</th>
+                    <th>Write</th>
+                    <th>Created Date</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                    <th>View</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="vlog,status : ${vlogList}">
+            <td th:text="${status.count}"></td>
+                    <td th:text="${vlog.title}"></td>
+                    <td th:text="${vlog.writer}"></td>
+                    <td th:text="${vlog.createdDate}"></td>
+            <td>
+                <a class="btn btn-primary" th:href="@{/{id}/edit(id=${vlog.id})}">Edit</a>
+            </td>
+            <td>
+                <a class="btn btn-danger" th:href="@{/{id}/delete(id=${vlog.id})}">Delete</a>
+            </td>
+            <td>
+                <a class="btn btn-warning" th:href="@{/{id}/view(id=${vlog.id})}">View</a>
+            </td>
+
+        </tr>
+        </tbody>
+    </table>
 </div>
-<h4 style="color: crimson">
-    <a href="/create">Add new Vlog</a>
-</h4>
-<form th:action="@{search}" method="get" style="width: 30%">
-    <span>
-        <input type="text" name="title">
-        <button type="submit">Search</button>
-    </span>
-</form>
-<table class="table table-success table-striped" style="width: 100%;">
-    <tr>
-        <th>Number</th>
-        <th>Title</th>
-        <th>Write</th>
-        <th>Created Date</th>
-        <th>Edit</th>
-        <th>Delete</th>
-        <th>View</th>
-    </tr>
-    <tr th:each="vlog, status : ${vlogList}">
-        <td th:text="${status.count}"></td>
-        <td th:text="${vlog.title}"></td>
-        <td th:text="${vlog.writer}"></td>
-        <td th:text="${vlog.createdDate}"></td>
-        <td><a th:href="@{/{id}/edit(id=${vlog.id})}">Edit</a></td>
-        <td><a th:href="@{/{id}/delete(id=${vlog.id})}">Delete</a></td>
-        <td><a th:href="@{/{id}/view(id=${vlog.id})}">View</a></td>
-</table>
+
+
+<!--<h1 style="color: blue; text-align: center">VLOG List</h1>-->
+<!--<div class="notify" style="text-align: center">-->
+<!--    <div th:if="${mess}">-->
+<!--        <span th:text="${mess}"></span>-->
+<!--    </div>-->
+<!--</div>-->
+<!--<h4 style="color: crimson">-->
+<!--    <a href="/create">Add new Vlog</a>-->
+<!--</h4>-->
+<!--<form th:action="@{search}" method="get" style="width: 30%">-->
+<!--    <span>-->
+<!--        <input type="text" name="title">-->
+<!--        <button type="submit">Search</button>-->
+<!--    </span>-->
+<!--</form>-->
+<!--<table class="table table-success table-striped" style="width: 100%;">-->
+<!--    <tr>-->
+<!--        <th>Number</th>-->
+<!--        <th>Title</th>-->
+<!--        <th>Write</th>-->
+<!--        <th>Created Date</th>-->
+<!--        <th>Edit</th>-->
+<!--        <th>Delete</th>-->
+<!--        <th>View</th>-->
+<!--    </tr>-->
+<!--    <tr th:each="vlog, status : ${vlogList}">-->
+<!--        <td th:text="${status.count}"></td>-->
+<!--        <td th:text="${vlog.title}"></td>-->
+<!--        <td th:text="${vlog.writer}"></td>-->
+<!--        <td th:text="${vlog.createdDate}"></td>-->
+<!--        <td><a th:href="@{/{id}/edit(id=${vlog.id})}">Edit</a></td>-->
+<!--        <td><a th:href="@{/{id}/delete(id=${vlog.id})}">Delete</a></td>-->
+<!--        <td><a th:href="@{/{id}/view(id=${vlog.id})}">View</a></td>-->
+<!--</tr>-->
+<!--</table>-->
 </body>
 </html>

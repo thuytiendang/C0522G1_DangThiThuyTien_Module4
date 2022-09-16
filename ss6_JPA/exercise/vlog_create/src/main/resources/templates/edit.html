@@ -9,26 +9,36 @@
             integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
 </head>
 <body>
-<h3>Edit product</h3>
-<form th:action="@{/update}" th:object="${vlog}" method="post">
-    <input type="hidden" th:field="*{id}"/>
-    <div>
-        <label>Title:</label>
-        <input type="text" th:field="*{title}"/>
-    </div>
-    <div>
-        <label>Writer:</label>
-        <input type="text" th:field="*{writer}"/>
-    </div>
-    <div>
-        <label>Created Date:</label>
-        <input type="text" th:field="*{createdDate}"/>
-    </div>
-    <div>
-        <label>Content:</label>
-        <input type="text" th:field="*{content}"/>
-    </div>
-    <input type="submit" value="Edit"/>
-</form>
+<h3 style="text-align: center; color: olivedrab" class="m-2">Edit vlog</h3>
+<div class="container border border-primary w-50">
+    <form class="g-3" th:action="@{/update}" th:object="${vlog}" method="post">
+        <div class="col-12">
+            <label hidden for="inputId" class="form-label">ID:</label>
+            <input hidden type="number" th:field="*{id}" class="form-control" id="inputId"/>
+        </div>
+        <div class="col-12">
+            <label for="inputName" class="form-label">Title:</label>
+            <input type="text" th:field="*{title}" class="form-control" id="inputName"/>
+        </div>
+        <div class="col-12">
+            <label for="inputPrice" class="form-label">Writer:</label>
+            <input type="text" th:field="*{writer}" class="form-control" id="inputPrice"/>
+        </div>
+
+        <div class="col-12">
+            <label for="inputDescription" class="form-label">Created Date:</label>
+            <input type="text" th:field="*{createdDate}" class="form-control" id="inputDescription"/>
+        </div>
+
+        <div class="col-12">
+            <label for="inputProducer" class="form-label">Content:</label>
+            <input type="text" th:field="*{content}" class="form-control" id="inputProducer"/>
+        </div>
+
+        <div class="col-12 mt-3 text-center">
+            <button type="submit" class="btn btn-primary">Edit</button>
+        </div>
+    </form>
+</div>
 </body>
 </html>
