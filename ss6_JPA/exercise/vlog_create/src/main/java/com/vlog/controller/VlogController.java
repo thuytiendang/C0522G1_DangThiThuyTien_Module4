@@ -22,12 +22,13 @@ public class VlogController {
     @Autowired
     private ICategoryService iCategoryService;
 
-//    @GetMapping("/")
-//    public String showList(@PageableDefault(value = 3, sort = "createdDate", direction = Sort.Direction.ASC) Pageable pageable, Model model) {
-//        Page<Vlog> vlogList = iVlogService.findAll(pageable);
-//        model.addAttribute("vlogList", vlogList);
-//        return "list";
-//    }
+    @GetMapping("/")
+    public String search(@PageableDefault(value = 3, sort = "createdDate", direction = Sort.Direction.ASC) Pageable pageable,
+                         @RequestParam(defaultValue = "") String title, Model model) {
+        model.addAttribute("vlogList", iVlogService.findByTitleContaining(title, pageable));
+        model.addAttribute("title", title);
+        return "list";
+    }
 
     @GetMapping("/create")
     public String create(Model model) {
@@ -79,11 +80,5 @@ public class VlogController {
         return "/view";
     }
 
-    @GetMapping("/")
-    public String search(@PageableDefault(value = 3, sort = "createdDate", direction = Sort.Direction.ASC) Pageable pageable,
-                         @RequestParam(defaultValue = "") String title, Model model) {
-        model.addAttribute("vlogList", iVlogService.findByTitleContaining(title, pageable));
-        model.addAttribute("title", title);
-        return "list";
-    }
+
 }
