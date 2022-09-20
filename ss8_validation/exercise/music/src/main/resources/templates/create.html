@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Create new Music</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+</head>
+<body>
+<form th:action="@{/save}" th:object="${musicDto}" method="post">
+    <table class="table table-striped">
+        <tr>
+            <td colspan="2" style="color: crimson">Add new music</td>
+        </tr>
+        <tr>
+            <td><label>Name:</label></td>
+            <td><input type="text" th:field="*{name}"/></td>
+            <td th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</td>
+        </tr>
+        <tr>
+            <td><label>singer:</label></td>
+            <td><input type="text" th:field="*{singer}"/></td>
+            <td th:if="${#fields.hasErrors('singer')}" th:errors="*{singer}">Name Error</td>
+        </tr>
+        <tr>
+            <td><label>Type of music:</label></td>
+            <td><input type="text" th:field="*{typeOfMusic}"/></td>
+            <td th:if="${#fields.hasErrors('typeOfMusic')}" th:errors="*{typeOfMusic}">Name Error</td>
+        </tr>
+        <tr>
+            <td><label>Link:</label></td>
+            <td><input type="text" th:field="*{link}"/></td>
+        </tr>
+        <tr>
+            <td colspan="2" style="color: crimson"><input type="submit" value="Save"/></td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Music</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+</head>
+<body>
+<form th:action="@{/delete}" th:object="${music}" method="post">
+    <table class="table table-striped">
+        <tr>
+            <td colspan="2" style="color: crimson">Delete music</td>
+        </tr>
+        <input type="hidden" th:field="*{id}"/>
+        <tr>
+            <td><label>Name:</label></td>
+            <td><input type="text" th:field="*{name}"/></td>
+        </tr>
+        <tr>
+            <td><label>singer:</label></td>
+            <td><input type="text" th:field="*{singer}"/></td>
+        </tr>
+        <tr>
+            <td><label>Type of music:</label></td>
+            <td><input type="text" th:field="*{typeOfMusic}"/></td>
+        </tr>
+        <tr>
+            <td><label>Link:</label></td>
+            <td><input type="text" th:field="*{link}"/></td>
+        </tr>
+        <tr>
+            <td colspan="2" style="color: crimson"><input type="submit" value="Remove"/></td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>
