@@ -1,7 +1,6 @@
 package com.vlog.controller;
 
 import com.vlog.model.Category;
-import com.vlog.model.Vlog;
 import com.vlog.service.ICategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,13 +24,13 @@ public class CategoryController {
     public String showList( Model model) {
         List<Category> categoryList = iCategoryService.findAll();
         model.addAttribute("categoryList", categoryList);
-        return "category_list";
+        return "category/category_list";
     }
 
     @GetMapping("/create")
     public String create(Model model) {
         model.addAttribute("category", new Category());
-        return "category_create";
+        return "category/category_create";
     }
 
     @PostMapping("/save")
@@ -44,7 +43,7 @@ public class CategoryController {
     @GetMapping("/{id}/edit")
     public String edit(@PathVariable int id, Model model) {
         model.addAttribute("category", iCategoryService.findById(id));
-        return "category_edit";
+        return "category/category_edit";
     }
 
     @PostMapping("/update")
@@ -57,7 +56,7 @@ public class CategoryController {
     @GetMapping("/{id}/delete")
     public String delete(@PathVariable int id, Model model) {
         model.addAttribute("category", iCategoryService.findById(id));
-        return "category_delete";
+        return "category/category_delete";
     }
 
     @PostMapping("/delete")
