@@ -4,7 +4,6 @@ import com.vlog.model.Vlog;
 import com.vlog.service.ICategoryService;
 import com.vlog.service.IVlogService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -23,17 +22,18 @@ public class VlogController {
     private ICategoryService iCategoryService;
 
     @GetMapping("/")
-    public String showList(@PageableDefault(value = 3, sort = "createdDate", direction = Sort.Direction.ASC) Pageable pageable, Model model) {
-        Page<Vlog> vlogList = iVlogService.findAll(pageable);
-        model.addAttribute("vlogList", vlogList);
-        return "list";
+    public String search(@PageableDefault(value = 3, sort = "createdDate", direction = Sort.Direction.ASC) Pageable pageable,
+                         @RequestParam(defaultValue = "") String title, Model model) {
+        model.addAttribute("vlogList", iVlogService.findByTitleContaining(title, pageable));
+        model.addAttribute("title", title);
+        return "vlog/list";
     }
 
     @GetMapping("/create")
     public String create(Model model) {
         model.addAttribute("vlog", new Vlog());
         model.addAttribute("category", iCategoryService.findAll());
-        return "create";
+        return "vlog/create";
     }
 
     @PostMapping("/save")
@@ -47,8 +47,7 @@ public class VlogController {
     public String edit(@PathVariable int id, Model model) {
         model.addAttribute("vlog", iVlogService.findById(id));
         model.addAttribute("category", iCategoryService.findAll());
-
-        return "edit";
+        return "vlog/edit";
     }
 
     @PostMapping("/update")
@@ -62,7 +61,7 @@ public class VlogController {
     public String delete(@PathVariable int id, Model model) {
         model.addAttribute("vlog", iVlogService.findById(id));
         model.addAttribute("category", iCategoryService.findAll());
-        return "delete";
+        return "vlog/delete";
     }
 
     @PostMapping("/delete")
@@ -76,13 +75,6 @@ public class VlogController {
     public String view(@PathVariable int id, Model model) {
         model.addAttribute("vlog", iVlogService.findById(id));
         model.addAttribute("category", iCategoryService.findAll());
-        return "/view";
-    }
-
-    @GetMapping("/search")
-    public String search(@PageableDefault(value = 3, sort = "createdDate", direction = Sort.Direction.ASC) Pageable pageable,
-                         @RequestParam String title, Model model) {
-        model.addAttribute("vlogList", iVlogService.findByTitleContaining(title, pageable));
-        return "list";
+        return "vlog/view";
     }
 }
