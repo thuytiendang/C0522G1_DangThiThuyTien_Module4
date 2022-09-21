@@ -37,7 +37,7 @@ public class MusicController {
     }
 
     @PostMapping("/save")
-    public String save(@ModelAttribute @Validated MusicDto musicDto, BindingResult bindingResult,
+    public String save(@Validated @ModelAttribute MusicDto musicDto, BindingResult bindingResult,
                        RedirectAttributes redirectAttributes) {
         if (bindingResult.hasFieldErrors()) {
             return "create";
@@ -57,7 +57,7 @@ public class MusicController {
     }
 
     @PostMapping("/update")
-    public String update(@ModelAttribute("music") @Validated MusicDto musicDto, BindingResult bindingResult,
+    public String update(@Validated @ModelAttribute("music")MusicDto musicDto, BindingResult bindingResult,
                          RedirectAttributes redirectAttributes) {
         if (bindingResult.hasFieldErrors()) {
             return "edit";

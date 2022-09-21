@@ -1,28 +1,40 @@
 package com.example.music.dto;
 
+import javax.validation.GroupSequence;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+interface First {
+}
+
+interface Second {
+}
+
+interface Third {
+}
+
+@GroupSequence(value = {MusicDto.class, First.class, Second.class, Third.class})
 public class MusicDto {
 
     private Integer id;
 
-    @NotBlank
-    @Size(max = 800, message = "Not over 800 characters.")
-    @Pattern(regexp = "[a-zA-Z0-9 \\+]*$")
+    @NotBlank(groups = First.class)
+    @Size(max = 800, message = "Not over 800 characters.", groups = Second.class)
+    @Pattern(regexp = "[a-zA-Z0-9 \\+]*$", groups = Third.class)
     private String name;
 
-    @NotBlank
-    @Size(max = 300, message = "Not over 300 characters.")
-    @Pattern(regexp = "[a-zA-Z0-9 \\+]*$")
+    @NotBlank(groups = First.class)
+    @Size(max = 300, message = "Not over 300 characters.", groups = Second.class)
+    @Pattern(regexp = "[a-zA-Z0-9 \\+]*$", groups = Third.class)
     private String singer;
 
 
-    @NotBlank
-    @Size(max = 1000, message = "Not over 1000 characters.")
-    @Pattern(regexp = "[a-zA-Z0-9, \\+]*$")
+    @NotBlank(groups = First.class)
+    @Size(max = 1000, message = "Not over 1000 characters.", groups = Second.class)
+    @Pattern(regexp = "[a-zA-Z0-9, \\+]*$", groups = Third.class)
     private String typeOfMusic;
+
     private String link;
 
     public MusicDto() {

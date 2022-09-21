@@ -3,29 +3,34 @@ package com.validate.dto;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
+import javax.validation.GroupSequence;
 import javax.validation.constraints.*;
 
+interface BasicInfo{}
+interface AdvanceInfo{}
+
+@GroupSequence(value={UserDto.class, BasicInfo.class,AdvanceInfo.class})
 public class UserDto implements Validator {
 
     private int id;
 
-    @NotBlank
-    @Size(max = 45, min = 5, message = "not at least 5 and over 45!")
+    @NotBlank(groups = BasicInfo.class)
+    @Size(max = 45, min = 5, message = "not at least 5 and over 45!", groups = AdvanceInfo.class)
     private String firstname;
 
-    @NotBlank
-    @Size(max = 45, min = 5, message = "not at least 5 and over 45!")
+    @NotBlank(groups = BasicInfo.class)
+    @Size(max = 45, min = 5, message = "not at least 5 and over 45!", groups = AdvanceInfo.class)
     private String lastname;
 
-    @NotBlank
-    @Pattern(regexp = "(^$|[0-9]*$)", message = "phoneNumber only include number")
+    @NotBlank(groups = BasicInfo.class)
+    @Pattern(regexp = "(^$|[0-9]*$)", message = "phoneNumber only include number", groups = AdvanceInfo.class)
     private String phoneNumber;
 
-    @Min(value = 18, message = "Age must greater than or equal 18")
+    @Min(value = 18, message = "Age must greater than or equal 18",groups = AdvanceInfo.class)
     private int age;
 
-    @NotBlank
-    @Email(message = "Email invalid")
+    @NotBlank(groups = BasicInfo.class)
+    @Email(message = "Email invalid", groups = AdvanceInfo.class)
     private String email;
 
     public UserDto() {
