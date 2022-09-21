@@ -1,16 +1,31 @@
 package com.validate.dto;
 
 import org.springframework.validation.Errors;
-import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
+
+import javax.validation.constraints.*;
 
 public class UserDto implements Validator {
 
     private int id;
+
+    @NotBlank
+    @Size(max = 45, min = 5, message = "not at least 5 and over 45!")
     private String firstname;
+
+    @NotBlank
+    @Size(max = 45, min = 5, message = "not at least 5 and over 45!")
     private String lastname;
+
+    @NotBlank
+    @Pattern(regexp = "(^$|[0-9]*$)", message = "phoneNumber only include number")
     private String phoneNumber;
+
+    @Min(value = 18, message = "Age must greater than or equal 18")
     private int age;
+
+    @NotBlank
+    @Email(message = "Email invalid")
     private String email;
 
     public UserDto() {
@@ -82,31 +97,33 @@ public class UserDto implements Validator {
     public void validate(Object target, Errors errors) {
         UserDto userDto = (UserDto) target;
         String number = userDto.getPhoneNumber();
-        ValidationUtils.rejectIfEmpty(errors, "phoneNumber", "phoneNumber.empty");
-        ValidationUtils.rejectIfEmpty(errors, "firstname", "firstname.empty");
-        ValidationUtils.rejectIfEmpty(errors, "lastname", "lastname.empty");
-        ValidationUtils.rejectIfEmpty(errors, "age", "age.empty");
-        ValidationUtils.rejectIfEmpty(errors, "email", "email.empty");
-        if (number.length()>11 || number.length()<10){
+
+        if (number.length() > 11 || number.length() < 10) {
             errors.rejectValue("phoneNumber", "phoneNumber.length");
         }
-        if (!number.startsWith("0")){
+        if (!number.startsWith("0")) {
             errors.rejectValue("phoneNumber", "phoneNumber.startsWith");
         }
-        if (!number.matches("(^$|[0-9]*$)")){
-            errors.rejectValue("phoneNumber", "phoneNumber.matches");
-        }
-        if (userDto.getFirstname().length()<5 || userDto.getFirstname().length()>45){
-            errors.rejectValue("firstname", "firstname.length");
-        }
-        if (userDto.getLastname().length()<5 || userDto.getLastname().length()>45){
-            errors.rejectValue("lastname", "lastname.length");
-        }
-        if (userDto.getAge() < 18){
-            errors.rejectValue("age", "age.min");
-        }
-        if (!userDto.getEmail().matches("(^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]{2,}(\\.[A-Za-z0-9]{2,}){1,2}$)")){
-            errors.rejectValue("email", "email.regex");
-        }
+//        if (!number.matches("(^$|[0-9]*$)")) {
+//            errors.rejectValue("phoneNumber", "phoneNumber.matches");
+//        }
+//        ValidationUtils.rejectIfEmpty(errors, "phoneNumber", "phoneNumber.empty");
+//        ValidationUtils.rejectIfEmpty(errors, "firstname", "firstname.empty");
+//        ValidationUtils.rejectIfEmpty(errors, "lastname", "lastname.empty");
+//        ValidationUtils.rejectIfEmpty(errors, "age", "age.empty");
+//        ValidationUtils.rejectIfEmpty(errors, "email", "email.empty");
+
+//        if (userDto.getFirstname().length()<5 || userDto.getFirstname().length()>45){
+//            errors.rejectValue("firstname", "firstname.length");
+//        }
+//        if (userDto.getLastname().length()<5 || userDto.getLastname().length()>45){
+//            errors.rejectValue("lastname", "lastname.length");
+//        }
+//        if (userDto.getAge() < 18){
+//            errors.rejectValue("age", "age.min");
+//        }
+//        if (!userDto.getEmail().matches("(^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]{2,}(\\.[A-Za-z0-9]{2,}){1,2}$)")){
+//            errors.rejectValue("email", "email.regex");
+//        }
     }
 }

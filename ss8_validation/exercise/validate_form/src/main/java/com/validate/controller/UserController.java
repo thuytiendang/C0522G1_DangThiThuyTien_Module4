@@ -1,4 +1,4 @@
-package com.validate.Controller;
+package com.validate.controller;
 
 import com.validate.dto.UserDto;
 import com.validate.model.User;
