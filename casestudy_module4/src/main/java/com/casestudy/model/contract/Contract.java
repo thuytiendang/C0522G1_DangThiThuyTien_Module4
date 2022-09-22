@@ -1,38 +1,52 @@
 package com.casestudy.model.contract;
 
+import com.casestudy.model.customer.Customer;
+import com.casestudy.model.employee.Employee;
+import com.casestudy.model.facility.Facility;
+
+import javax.persistence.*;
+import java.util.Set;
+
+@Entity
 public class Contract {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int contractId;
     private String startDay;
     private String endDay;
     private double deposit;
-    private int employeeId;
-    private int customerId;
-    private int facilityId;
     private double totalMoney;
+
+    @ManyToOne
+    @JoinColumn(name = "customer_id", referencedColumnName = "customerId")
+    private Customer customer;
+
+    @ManyToOne
+    @JoinColumn(name = "employee_id", referencedColumnName = "employeeId")
+    private Employee employee;
+
+    @OneToMany(mappedBy = "contract")
+    private Set<ContractDetail> contractDetails;
+
+    @ManyToOne
+    @JoinColumn(name = "facility_id", referencedColumnName = "facilityId")
+    private Facility facility;
 
     public Contract() {
     }
 
-    public Contract(int contractId, String startDay, String endDay, double deposit, int employeeId, int customerId,
-                    int facilityId, double totalMoney) {
+    public Contract(int contractId, String startDay, String endDay, double deposit, double totalMoney, Customer customer,
+                    Employee employee, Set<ContractDetail> contractDetails, Facility facility) {
         this.contractId = contractId;
         this.startDay = startDay;
         this.endDay = endDay;
         this.deposit = deposit;
-        this.employeeId = employeeId;
-        this.customerId = customerId;
-        this.facilityId = facilityId;
         this.totalMoney = totalMoney;
-    }
-
-    public Contract(String startDay, String endDay, double deposit, int employeeId, int customerId, int facilityId, double totalMoney) {
-        this.startDay = startDay;
-        this.endDay = endDay;
-        this.deposit = deposit;
-        this.employeeId = employeeId;
-        this.customerId = customerId;
-        this.facilityId = facilityId;
-        this.totalMoney = totalMoney;
+        this.customer = customer;
+        this.employee = employee;
+        this.contractDetails = contractDetails;
+        this.facility = facility;
     }
 
     public int getContractId() {
@@ -67,35 +81,43 @@ public class Contract {
         this.deposit = deposit;
     }
 
-    public int getEmployeeId() {
-        return employeeId;
-    }
-
-    public void setEmployeeId(int employeeId) {
-        this.employeeId = employeeId;
-    }
-
-    public int getCustomerId() {
-        return customerId;
-    }
-
-    public void setCustomerId(int customerId) {
-        this.customerId = customerId;
-    }
-
-    public int getFacilityId() {
-        return facilityId;
-    }
-
-    public void setFacilityId(int facilityId) {
-        this.facilityId = facilityId;
-    }
-
     public double getTotalMoney() {
         return totalMoney;
     }
 
     public void setTotalMoney(double totalMoney) {
         this.totalMoney = totalMoney;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+
+    public Set<ContractDetail> getContractDetails() {
+        return contractDetails;
+    }
+
+    public void setContractDetails(Set<ContractDetail> contractDetails) {
+        this.contractDetails = contractDetails;
+    }
+
+    public Facility getFacility() {
+        return facility;
+    }
+
+    public void setFacility(Facility facility) {
+        this.facility = facility;
     }
 }

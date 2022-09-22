@@ -1,15 +1,26 @@
 package com.casestudy.model.employee;
 
+import javax.persistence.*;
+import java.util.Set;
+
+@Entity
 public class EducationDegree {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int educationDegreeId;
     private String educationDegreeName;
+
+    @OneToMany(mappedBy = "educationDegree")
+    private Set<Employee> employees;
 
     public EducationDegree() {
     }
 
-    public EducationDegree(int educationDegreeId, String educationDegreeName) {
+    public EducationDegree(int educationDegreeId, String educationDegreeName, Set<Employee> employees) {
         this.educationDegreeId = educationDegreeId;
         this.educationDegreeName = educationDegreeName;
+        this.employees = employees;
     }
 
     public int getEducationDegreeId() {
@@ -26,5 +37,13 @@ public class EducationDegree {
 
     public void setEducationDegreeName(String educationDegreeName) {
         this.educationDegreeName = educationDegreeName;
+    }
+
+    public Set<Employee> getEmployees() {
+        return employees;
+    }
+
+    public void setEmployees(Set<Employee> employees) {
+        this.employees = employees;
     }
 }

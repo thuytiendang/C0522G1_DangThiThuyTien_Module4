@@ -1,15 +1,26 @@
 package com.casestudy.model.employee;
 
+import javax.persistence.*;
+import java.util.Set;
+
+@Entity
 public class Division {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int divisionId;
     private String divisionName;
+
+    @OneToMany(mappedBy = "division")
+    private Set<Employee> employees;
 
     public Division() {
     }
 
-    public Division(int divisionId, String divisionName) {
+    public Division(int divisionId, String divisionName, Set<Employee> employees) {
         this.divisionId = divisionId;
         this.divisionName = divisionName;
+        this.employees = employees;
     }
 
     public int getDivisionId() {
@@ -26,5 +37,13 @@ public class Division {
 
     public void setDivisionName(String divisionName) {
         this.divisionName = divisionName;
+    }
+
+    public Set<Employee> getEmployees() {
+        return employees;
+    }
+
+    public void setEmployees(Set<Employee> employees) {
+        this.employees = employees;
     }
 }

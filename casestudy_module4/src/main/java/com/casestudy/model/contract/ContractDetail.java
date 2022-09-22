@@ -1,19 +1,31 @@
 package com.casestudy.model.contract;
 
+import javax.persistence.*;
+
+@Entity
 public class ContractDetail {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int contractDetailId;
     private int quantity;
-    private int contractId;
-    private int contractFacilityId;
+
+    @ManyToOne
+    @JoinColumn(name = "contract_id", referencedColumnName = "contractId")
+    private Contract contract;
+
+    @ManyToOne
+    @JoinColumn(name = "attach_facility_id", referencedColumnName = "attachFacilityId")
+    private AttachFacility attachFacility;
 
     public ContractDetail() {
     }
 
-    public ContractDetail(int contractDetailId, int quantity, int contractId, int contractFacilityId) {
+    public ContractDetail(int contractDetailId, int quantity, Contract contract, AttachFacility attachFacility) {
         this.contractDetailId = contractDetailId;
         this.quantity = quantity;
-        this.contractId = contractId;
-        this.contractFacilityId = contractFacilityId;
+        this.contract = contract;
+        this.attachFacility = attachFacility;
     }
 
     public int getContractDetailId() {
@@ -32,19 +44,19 @@ public class ContractDetail {
         this.quantity = quantity;
     }
 
-    public int getContractId() {
-        return contractId;
+    public Contract getContract() {
+        return contract;
     }
 
-    public void setContractId(int contractId) {
-        this.contractId = contractId;
+    public void setContract(Contract contract) {
+        this.contract = contract;
     }
 
-    public int getContractFacilityId() {
-        return contractFacilityId;
+    public AttachFacility getAttachFacility() {
+        return attachFacility;
     }
 
-    public void setContractFacilityId(int contractFacilityId) {
-        this.contractFacilityId = contractFacilityId;
+    public void setAttachFacility(AttachFacility attachFacility) {
+        this.attachFacility = attachFacility;
     }
 }

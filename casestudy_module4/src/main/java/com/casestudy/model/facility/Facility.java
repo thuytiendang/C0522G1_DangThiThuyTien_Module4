@@ -1,6 +1,15 @@
 package com.casestudy.model.facility;
 
+import com.casestudy.model.contract.Contract;
+
+import javax.persistence.*;
+import java.util.Set;
+
+@Entity
 public class Facility {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int facilityId;
     private String facilityName;
     private int facilityArea;
@@ -11,15 +20,25 @@ public class Facility {
     private double poolArea;
     private int numberOfFloors;
     private String facilityFree;
-    private int rentTypeId;
-    private int facilityTypeId;
+
+    @OneToMany(mappedBy = "facility")
+    private Set<Contract> contracts;
+
+    @ManyToOne
+    @JoinColumn(name = "facility_type_id", referencedColumnName = "facilityTypeId")
+    private FacilityType facilityType;
+
+
+    @ManyToOne
+    @JoinColumn(name = "rent_type_id", referencedColumnName = "rentTypeId")
+    private RentType rentType;
 
     public Facility() {
     }
 
     public Facility(int facilityId, String facilityName, int facilityArea, double facilityCost, int maxPeople,
                     String standardRoom, String descriptionOtherConvenience, double poolArea, int numberOfFloors,
-                    String facilityFree, int rentTypeId, int facilityTypeId) {
+                    String facilityFree, Set<Contract> contracts, FacilityType facilityType, RentType rentType) {
         this.facilityId = facilityId;
         this.facilityName = facilityName;
         this.facilityArea = facilityArea;
@@ -30,23 +49,9 @@ public class Facility {
         this.poolArea = poolArea;
         this.numberOfFloors = numberOfFloors;
         this.facilityFree = facilityFree;
-        this.rentTypeId = rentTypeId;
-        this.facilityTypeId = facilityTypeId;
-    }
-
-    public Facility(String facilityName, int facilityArea, double facilityCost, int maxPeople, String standardRoom,
-                    String descriptionOtherConvenience, double poolArea, int numberOfFloors, String facilityFree, int rentTypeId, int facilityTypeId) {
-        this.facilityName = facilityName;
-        this.facilityArea = facilityArea;
-        this.facilityCost = facilityCost;
-        this.maxPeople = maxPeople;
-        this.standardRoom = standardRoom;
-        this.descriptionOtherConvenience = descriptionOtherConvenience;
-        this.poolArea = poolArea;
-        this.numberOfFloors = numberOfFloors;
-        this.facilityFree = facilityFree;
-        this.rentTypeId = rentTypeId;
-        this.facilityTypeId = facilityTypeId;
+        this.contracts = contracts;
+        this.facilityType = facilityType;
+        this.rentType = rentType;
     }
 
     public int getFacilityId() {
@@ -129,19 +134,27 @@ public class Facility {
         this.facilityFree = facilityFree;
     }
 
-    public int getRentTypeId() {
-        return rentTypeId;
+    public Set<Contract> getContracts() {
+        return contracts;
     }
 
-    public void setRentTypeId(int rentTypeId) {
-        this.rentTypeId = rentTypeId;
+    public void setContracts(Set<Contract> contracts) {
+        this.contracts = contracts;
     }
 
-    public int getFacilityTypeId() {
-        return facilityTypeId;
+    public FacilityType getFacilityType() {
+        return facilityType;
     }
 
-    public void setFacilityTypeId(int facilityTypeId) {
-        this.facilityTypeId = facilityTypeId;
+    public void setFacilityType(FacilityType facilityType) {
+        this.facilityType = facilityType;
+    }
+
+    public RentType getRentType() {
+        return rentType;
+    }
+
+    public void setRentType(RentType rentType) {
+        this.rentType = rentType;
     }
 }

@@ -1,6 +1,15 @@
 package com.casestudy.model.employee;
 
+import com.casestudy.model.contract.Contract;
+
+import javax.persistence.*;
+import java.util.Set;
+
+@Entity
 public class Employee {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int employeeId;
     private String employeeName;
     private String employeeBirthday;
@@ -9,16 +18,28 @@ public class Employee {
     private String employeePhone;
     private String employeeEmail;
     private String employeeAddress;
-    private int positionId;
-    private int educationDegreeId;
-    private int divisionId;
+
+    @ManyToOne
+    @JoinColumn(name = "division_id", referencedColumnName = "divisionId")
+    private Division division;
+
+    @ManyToOne
+    @JoinColumn(name = "education_degree_id", referencedColumnName = "educationDegreeId")
+    private EducationDegree educationDegree;
+
+    @ManyToOne
+    @JoinColumn(name = "position_id", referencedColumnName = "positionId")
+    private Position position;
+
+    @OneToMany(mappedBy = "employee")
+    private Set<Contract> contracts;
 
     public Employee() {
     }
 
     public Employee(int employeeId, String employeeName, String employeeBirthday, String employeeIdCard, double employeeSalary,
-                    String employeePhone, String employeeEmail, String employeeAddress, int positionId, int educationDegreeId,
-                    int divisionId) {
+                    String employeePhone, String employeeEmail, String employeeAddress, Division division,
+                    EducationDegree educationDegree, Position position, Set<Contract> contracts) {
         this.employeeId = employeeId;
         this.employeeName = employeeName;
         this.employeeBirthday = employeeBirthday;
@@ -27,23 +48,10 @@ public class Employee {
         this.employeePhone = employeePhone;
         this.employeeEmail = employeeEmail;
         this.employeeAddress = employeeAddress;
-        this.positionId = positionId;
-        this.educationDegreeId = educationDegreeId;
-        this.divisionId = divisionId;
-    }
-
-    public Employee(String employeeName, String employeeBirthday, String employeeIdCard, double employeeSalary,
-                    String employeePhone, String employeeEmail, String employeeAddress, int positionId, int educationDegreeId, int divisionId) {
-        this.employeeName = employeeName;
-        this.employeeBirthday = employeeBirthday;
-        this.employeeIdCard = employeeIdCard;
-        this.employeeSalary = employeeSalary;
-        this.employeePhone = employeePhone;
-        this.employeeEmail = employeeEmail;
-        this.employeeAddress = employeeAddress;
-        this.positionId = positionId;
-        this.educationDegreeId = educationDegreeId;
-        this.divisionId = divisionId;
+        this.division = division;
+        this.educationDegree = educationDegree;
+        this.position = position;
+        this.contracts = contracts;
     }
 
     public int getEmployeeId() {
@@ -110,27 +118,35 @@ public class Employee {
         this.employeeAddress = employeeAddress;
     }
 
-    public int getPositionId() {
-        return positionId;
+    public Division getDivision() {
+        return division;
     }
 
-    public void setPositionId(int positionId) {
-        this.positionId = positionId;
+    public void setDivision(Division division) {
+        this.division = division;
     }
 
-    public int getEducationDegreeId() {
-        return educationDegreeId;
+    public EducationDegree getEducationDegree() {
+        return educationDegree;
     }
 
-    public void setEducationDegreeId(int educationDegreeId) {
-        this.educationDegreeId = educationDegreeId;
+    public void setEducationDegree(EducationDegree educationDegree) {
+        this.educationDegree = educationDegree;
     }
 
-    public int getDivisionId() {
-        return divisionId;
+    public Position getPosition() {
+        return position;
     }
 
-    public void setDivisionId(int divisionId) {
-        this.divisionId = divisionId;
+    public void setPosition(Position position) {
+        this.position = position;
+    }
+
+    public Set<Contract> getContracts() {
+        return contracts;
+    }
+
+    public void setContracts(Set<Contract> contracts) {
+        this.contracts = contracts;
     }
 }
