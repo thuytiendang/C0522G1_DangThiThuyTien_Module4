@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Cart</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+            crossorigin="anonymous"></script>
+</head>
+<body>
+<div class="container">
+    <h1 style="color: #16c590; text-align: center">GIỎ HÀNG</h1>
+    <p style="text-align: center"><a href="/">Quay lại trang chủ</a></p>
+
+    <div class="row">
+        <div class="col-md-8">
+            <table class="table table-success table-striped" th:if="${cart !=null && cart.getProductMap().size()>0}">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Hình ảnh</th>
+                    <th>Tên</th>
+                    <th>Giá</th>
+                    <th>Số lượng</th>
+                    <th>Tổng tiền</th>
+                    <th>Xóa</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr th:each="productMap, status : ${cart.productMap}">
+                    <td th:text="${status.count}"></td>
+                    <td><img th:src="@{${productMap.key.image}}" style="width:130px; height: auto"></td>
+                    <td th:text="${productMap.key.name}"></td>
+                    <td th:text="${productMap.key.price}"></td>
+                    <td th:text="${productMap.value}"></td>
+                    <td th:text="${productMap.key.price * productMap.value}"></td>
+                    <td>
+                        <a th:href="@{/delete/__${productMap.key.id}__}">
+                            <button class="btn btn-danger">Delete</button>
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <th colspan="5">Tổng tiền phải trả:</th>
+                    <td th:text="${cart.totalPayment()}"></td>
+                    <td></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="alert alert-warning" role="alert" th:if="${cart == null || cart.getProductMap().size()==0}">
+            Giỏ hàng của bạn trống!
+        </div>
+    </div>
+</div>
+</div>
+</body>
+</html>
