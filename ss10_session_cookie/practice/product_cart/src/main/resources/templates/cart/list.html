@@ -26,6 +26,7 @@
                     <th>Tên</th>
                     <th>Giá</th>
                     <th>Số lượng</th>
+                    <th>tăng số lượng</th>
                     <th>Tổng tiền</th>
                     <th>Xóa</th>
                 </tr>
@@ -38,6 +39,11 @@
                     <td th:text="${productMap.key.name}"></td>
                     <td th:text="${productMap.key.price}"></td>
                     <td th:text="${productMap.value}"></td>
+                    <td>
+                        <a th:href="@{/add/__${productMap.key.id}__}">
+                            <button class="btn btn-success"> +</button>
+                        </a>
+                    </td>
                     <td th:text="${productMap.key.price * productMap.value}"></td>
                     <td>
                         <a th:href="@{/delete/__${productMap.key.id}__}">
