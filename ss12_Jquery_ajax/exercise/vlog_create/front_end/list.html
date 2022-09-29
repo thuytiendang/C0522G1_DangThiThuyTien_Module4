@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vlog list</title>
+    <script src="jquery-3.5.1.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+</head>
+<body>
+<h1>Vlog list</h1>
+
+    <div class="row">
+        <div class="input-group w-25">
+            <input type="text" name="title" class="form-control form-control-sm" placeholder="Input name"
+                   aria-label="Recipient's username" aria-describedby="button-addon2" id="search">
+            <button class="btn btn-outline-secondary" type="submit" id="button">Search</button>
+        </div>
+    </div>
+
+<table border="1" class="table table-success table-striped">
+    <thead>
+    <tr>
+        <th>Title</th>
+        <th>Category</th>
+        <th>writer</th>
+        <th>created date</th>
+        <th>Content</th>
+<!--        <th>Edit</th>-->
+<!--        <th>Delete</th>-->
+<!--        <th>View</th>-->
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>
+            <span>Loading .....</span>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<button class="btn btn-outline-secondary" type="submit" id="more_load">Load more</button>
+
+<script src="jquery-3.5.1.min.js"></script>
+<script>
+    let content = 2;
+    $(document).ready(function () {
+        setTimeout(function () {
+
+            $("tbody").empty();
+            $.ajax({
+                url: "http://localhost:8080/vlog",
+                type: "GET",
+                dataType: "json",
+                success: function (data) {
+                    console.log(data);
+                    let tr = [];
+                    for (let i = 0; i < content; i++) {
+                        tr.push("<tr>");
+                        tr.push("<td>" + data[i].title + "</td>");
+                        tr.push("<td>" + data[i].category.name + "</td>");
+                        tr.push("<td>" + data[i].writer + "</td>");
+                        tr.push("<td>" + data[i].createdDate + "</td>");
+                        tr.push("<td>" + data[i].content + "</td>");
+                        tr.push("</tr>");
+                    }
+                    $("table").append(tr.join(""));
+                }
+            })
+
+            $("#more_load").click(function () {
+
+                $.ajax({
+                    url: "http://localhost:8080/vlog",
+                    type: "GET",
+                    dataType: "json",
+                    success: function (data) {
+                        $("tbody").empty();
+                        content += 2;
+                        console.log(data);
+                        let tr = [];
+                        for (let i = 0; i < content; i ++) {
+                            tr.push("<tr>");
+                            tr.push("<td>" + data[i].title + "</td>");
+                            tr.push("<td>" + data[i].category.name + "</td>");
+                            tr.push("<td>" + data[i].writer + "</td>");
+                            tr.push("<td>" + data[i].createdDate + "</td>");
+                            tr.push("<td>" + data[i].content + "</td>");
+                            tr.push("</tr>");
+                            if (content > data.length){
+                                content = data.length
+                            }
+                        }
+                        $("table").append(tr.join(""));
+                    }
+                })
+            })
+        }, 2000)
+    })
+
+
+
+
+    $("#button").click(function () {
+            let str = $("#search").val();
+            $("tbody").empty();
+            $.ajax({
+                url: "http://localhost:8080/vlog/search?title=" + str,
+                type: "GET",
+                dataType: "json",
+                success: function (data) {
+                    console.log(data);
+                    let tr = [];
+                    for (let i = 0; i < data.length; i++) {
+                        tr.push("<tr>");
+                        tr.push("<td>" + data[i].title + "</td>");
+                        tr.push("<td>" + data[i].category.name + "</td>");
+                        tr.push("<td>" + data[i].writer + "</td>");
+                        tr.push("<td>" + data[i].createdDate + "</td>");
+                        tr.push("<td>" + data[i].content + "</td>");
+                        tr.push("</tr>");
+                    }
+                    $("table").append(tr.join(""));
+                }
+            })
+    })
+
+
+</script>
+</body>
+</html>

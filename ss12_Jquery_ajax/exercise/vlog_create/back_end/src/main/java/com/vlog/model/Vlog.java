@@ -19,7 +19,6 @@ public class Vlog {
 
     @ManyToOne
     @JoinColumn(name = "category_id", referencedColumnName = "id")
-    @JsonBackReference
     private Category category;
 
     public Vlog() {

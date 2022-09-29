@@ -15,7 +15,7 @@ public class Category {
     private String name;
 
     @OneToMany(mappedBy = "category")
-    @JsonManagedReference
+    @JsonIgnore
     private List<Vlog> vlogList;
 
     public Category() {

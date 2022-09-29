@@ -24,5 +24,7 @@ public interface IVlogService {
 
     void delete(int id);
 
+    List<Vlog> findByTitleContaining(String title);
+
 //    Page<Vlog> findByTitleContaining(String title, Pageable pageable);
 }

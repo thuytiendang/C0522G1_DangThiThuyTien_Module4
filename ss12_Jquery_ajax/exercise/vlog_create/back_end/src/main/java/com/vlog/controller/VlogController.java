@@ -6,13 +6,13 @@ import com.vlog.service.IVlogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
+@CrossOrigin("*")
 @RequestMapping("/vlog")
 public class VlogController {
 
@@ -25,6 +25,20 @@ public class VlogController {
     @GetMapping
     public ResponseEntity<List<Vlog>> getVlogList(){
         List<Vlog> vlogList = iVlogService.showVlogList();
+        if (vlogList.isEmpty()){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(vlogList,HttpStatus.OK);
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<Vlog>> search(Optional<String> title){
+        System.out.println(title);
+        String str = title.orElse("");
+        System.out.println(str);
+        List<Vlog> vlogList = iVlogService.findByTitleContaining(str);
+        System.out.println(vlogList.size());
+
         if (vlogList.isEmpty()){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }

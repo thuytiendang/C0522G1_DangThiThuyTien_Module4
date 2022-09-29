@@ -22,4 +22,6 @@ public interface IVlogRepository extends JpaRepository<Vlog, Integer> {
 
     @Query(value = "select * from vlog where category_id = :id",nativeQuery = true)
     List<Vlog> showListOfCategory(@Param("id") int id);
+
+    List<Vlog> findByTitleContaining(String title);
 }

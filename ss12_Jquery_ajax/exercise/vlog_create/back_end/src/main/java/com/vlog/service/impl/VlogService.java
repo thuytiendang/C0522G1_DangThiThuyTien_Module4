@@ -58,6 +58,11 @@ public class VlogService implements IVlogService {
         iVlogRepository.deleteById(id);
     }
 
+    @Override
+    public List<Vlog> findByTitleContaining(String title) {
+        return iVlogRepository.findByTitleContaining(title);
+    }
+
 //    @Override
 //    public Page<Vlog> findByTitleContaining(String title, Pageable pageable) {
 //        return null;
