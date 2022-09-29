@@ -27,6 +27,15 @@ public class CartDto {
         }
     }
 
+    public void minusProduct(ProductDto productDto) {
+        if (productMap.containsKey(productDto)) {
+            Integer currentValue = productMap.get(productDto);
+            productMap.put(productDto, currentValue - 1);
+        } else {
+            productMap.put(productDto, 1);
+        }
+    }
+
     public Double totalPayment() {
         double payment = 0;
         for (Map.Entry<ProductDto, Integer> entry : productMap.entrySet()) {

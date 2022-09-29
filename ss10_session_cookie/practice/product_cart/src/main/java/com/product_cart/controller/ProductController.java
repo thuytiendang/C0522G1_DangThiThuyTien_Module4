@@ -57,6 +57,17 @@ public class ProductController {
         return "redirect:/cart";
     }
 
+    @GetMapping("/minus/{id}")
+    public String minusProduct(@PathVariable Long id, @ModelAttribute("cart") CartDto cart) {
+        Optional<Product> productDetail = iProductService.findById(id);
+        if (productDetail.isPresent()) {
+            ProductDto productDto = new ProductDto();
+            BeanUtils.copyProperties(productDetail.get(), productDto);
+            cart.minusProduct(productDto);
+        }
+        return "redirect:/cart";
+    }
+
     @GetMapping("/delete/{id}")
     public String deleteProduct(@PathVariable Long id, @ModelAttribute("cart") CartDto cart) {
         Optional<Product> productDetail = iProductService.findById(id);
