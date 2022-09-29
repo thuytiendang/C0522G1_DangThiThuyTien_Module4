@@ -24,7 +24,6 @@ public class SmartPhoneController {
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<SmartPhone> delete(@PathVariable Long id){
-        System.out.println(id);
         Optional<SmartPhone> smartPhone = iSmartPhoneService.findById(id);
         if (!smartPhone.isPresent()){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -33,5 +32,24 @@ public class SmartPhoneController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PostMapping
+    public ResponseEntity<SmartPhone> create(SmartPhone smartPhone){
+        iSmartPhoneService.save(smartPhone);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<SmartPhone> getPhoneById(Long id){
+       Optional<SmartPhone> smartPhone = iSmartPhoneService.findById(id);
+        if (!smartPhone.isPresent()){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(smartPhone.get(), HttpStatus.OK);
+    }
+
+    @PutMapping
+    public ResponseEntity<SmartPhone> update(SmartPhone smartPhone){
+        iSmartPhoneService.update(smartPhone);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
