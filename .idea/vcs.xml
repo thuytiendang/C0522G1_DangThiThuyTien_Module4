@@ -2,6 +2,7 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/ss13_security/Spring-Security-1" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/ss5_ORM/practice/customer-management" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/ss9_AOP &amp; Exception Handling/practice/customer-management" vcs="Git" />
   </component>
