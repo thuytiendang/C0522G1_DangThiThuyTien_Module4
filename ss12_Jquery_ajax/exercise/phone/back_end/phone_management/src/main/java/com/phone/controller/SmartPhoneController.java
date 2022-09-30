@@ -33,7 +33,7 @@ public class SmartPhoneController {
     }
 
     @PostMapping
-    public ResponseEntity<SmartPhone> create(SmartPhone smartPhone){
+    public ResponseEntity<SmartPhone> create(@RequestBody SmartPhone smartPhone){
         iSmartPhoneService.save(smartPhone);
         return new ResponseEntity<>(HttpStatus.OK);
     }
