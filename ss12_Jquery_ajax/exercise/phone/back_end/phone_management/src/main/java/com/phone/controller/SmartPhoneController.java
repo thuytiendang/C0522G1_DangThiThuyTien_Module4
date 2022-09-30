@@ -39,7 +39,7 @@ public class SmartPhoneController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<SmartPhone> getPhoneById(Long id){
+    public ResponseEntity<SmartPhone> getPhoneById(@PathVariable Long id){
        Optional<SmartPhone> smartPhone = iSmartPhoneService.findById(id);
         if (!smartPhone.isPresent()){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -48,7 +48,7 @@ public class SmartPhoneController {
     }
 
     @PutMapping
-    public ResponseEntity<SmartPhone> update(SmartPhone smartPhone){
+    public ResponseEntity<SmartPhone> update(@RequestBody SmartPhone smartPhone){
         iSmartPhoneService.update(smartPhone);
         return new ResponseEntity<>(HttpStatus.OK);
     }
