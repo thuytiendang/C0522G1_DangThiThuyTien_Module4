@@ -39,7 +39,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/create").hasAnyRole("ADMIN")
                 .antMatchers("/{id}/edit").hasAnyRole("ADMIN")
                 .antMatchers("/{id}/delete").hasAnyRole("ADMIN")
-                .antMatchers("/search").hasAnyRole("ADMIN, USER")
+                .antMatchers("/search").hasAnyRole("ADMIN", "USER")
                 .anyRequest().authenticated();
 
         http.authorizeRequests().and().rememberMe()

@@ -15,7 +15,7 @@ public class CustomerService implements ICustomerService {
     private ICustomerRepository iCustomerRepository;
 
     @Override
-    public Page<Customer> showListCustomer(Pageable pageable) {
+    public Page<Customer> showCustomerList(Pageable pageable) {
         return iCustomerRepository.findAll(pageable);
     }
 
@@ -37,5 +37,10 @@ public class CustomerService implements ICustomerService {
     @Override
     public Customer findById(int id) {
         return iCustomerRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public Page<Customer> search(String name, String address, String phone, Pageable pageable) {
+        return iCustomerRepository.search(name, address, phone, pageable);
     }
 }

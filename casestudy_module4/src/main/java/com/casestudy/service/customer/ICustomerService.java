@@ -6,7 +6,7 @@ import org.springframework.data.domain.Pageable;
 
 public interface ICustomerService {
 
-    Page<Customer> showListCustomer(Pageable pageable);
+    Page<Customer> showCustomerList(Pageable pageable);
 
     void addNewCustomer(Customer customer);
 
@@ -15,4 +15,6 @@ public interface ICustomerService {
     void updateCustomer(Customer customer);
 
     Customer findById(int id);
+
+    Page<Customer> search(String title, String address, String phone, Pageable pageable);
 }
