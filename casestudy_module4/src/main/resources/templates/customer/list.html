@@ -39,7 +39,11 @@
     <input type="text" name="phoneSearch" th:value="${phoneSearch}" placeholder="phoneSearch">
     <button type="submit" name="action" value="search" class="btn btn-secondary btn-sm">Search</button>
 </form>
-
+    <div class="notify" style="text-align: center; color: red">
+        <div th:if="${mess}">
+            <span th:text="${mess}"></span>
+        </div>
+    </div>
 <table class="table table-striped table-bordered" id="customerTable">
     <thead>
     <tr class="text-center bg-info">
@@ -92,7 +96,6 @@
                 </button>
             </td>
         </tr>
-    </c:forEach>
     </tbody>
 </table>
 

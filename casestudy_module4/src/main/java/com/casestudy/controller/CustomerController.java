@@ -12,6 +12,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -49,9 +50,36 @@ public class CustomerController {
     }
 
     @PostMapping("/add")
-    public String saveCustomer(Customer customer) {
-        System.out.println(customer.getCustomerType());
+    public String saveCustomer(Customer customer, RedirectAttributes redirectAttributes) {
         iCustomerService.addNewCustomer(customer);
+        redirectAttributes.addFlashAttribute("mess", "Add new customer successfully!");
+        return "redirect:/customer/list";
+    }
+
+    @GetMapping("/edit/{id}")
+    public String edit (@PathVariable int id, Model model){
+        model.addAttribute("customerTypes", iCustomerTypeService.showListTypeCustomer());
+        model.addAttribute("customer", iCustomerService.findById(id));
+        return "customer/edit";
+    }
+
+    @PostMapping("/update")
+    public String update(Customer customer, RedirectAttributes redirectAttributes){
+        iCustomerService.updateCustomer(customer);
+        redirectAttributes.addFlashAttribute("mess", "Update customer successfully!");
+        return "redirect:/customer/list";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String delete(@PathVariable int id, RedirectAttributes redirectAttributes){
+        iCustomerService.deleteLogical(id);
+        redirectAttributes.addFlashAttribute("mess", "Delete customer successfully!");
+        return "redirect:/customer/list";
+    }
+
+    @GetMapping("/view/{id}")
+    public String view(@PathVariable int id){
+        iCustomerService.findById(id);
         return "redirect:/customer/list";
     }
 }
