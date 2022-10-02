@@ -3,6 +3,7 @@ package com.casestudy.service.customer;
 import com.casestudy.model.customer.Customer;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
 
 public interface ICustomerService {
 
@@ -10,11 +11,13 @@ public interface ICustomerService {
 
     void addNewCustomer(Customer customer);
 
-    void deleteCustomer(int id);
+    void deleteLogical(Integer id);
 
     void updateCustomer(Customer customer);
 
     Customer findById(int id);
 
-    Page<Customer> search(String title, String address, String phone, Pageable pageable);
+//    Page<Customer> findByCustomerNameContainingAndCustomerAddressContainingAndCustomerPhoneContaining(String nameSearch, String addressSearch, String phoneSearch, Pageable pageable);
+Page<Customer> search(String nameSearch, String addressSearch, String phoneSearch, Pageable pageable);
+
 }

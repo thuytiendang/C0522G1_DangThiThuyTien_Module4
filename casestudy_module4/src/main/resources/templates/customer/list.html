@@ -24,17 +24,19 @@
     </style>
 </head>
 <body>
+<div th:replace="~{/home::header}"></div>
+<div class="p-3">
 <h2 class="text-center fw-bold">CUSTOMER LIST</h2>
 
-<a href="/customer/create">
+<a th:href="@{/customer/create}">
     <button class="btn btn-success btn-sm my-2">
         <span class="fa-solid fa-person-circle-plus text-light h5 my-auto me-1"></span> Add new Customer
     </button>
 </a>
-<form th:action="/customer" class="my-3" method="get">
-    <input type="text" name="searchName" placeholder="input name">
-    <input type="text" name="searchAddress" placeholder="input address">
-    <input type="text" name="searchPhone" placeholder="input phone">
+<form th:action="@{/customer/list}" class="my-3" method="get">
+    <input type="text" name="nameSearch" placeholder="nameSearch">
+    <input type="text" name="addressSearch" placeholder="addressSearch">
+    <input type="text" name="phoneSearch" placeholder="phoneSearch">
     <button type="submit" name="action" value="search" class="btn btn-secondary btn-sm">Search</button>
 </form>
 
@@ -52,39 +54,42 @@
         <th>Customer type</th>
         <th>Update</th>
         <th>Delete</th>
+        <th>View</th>
     </tr>
     </thead>
     <tbody>
-    <c:forEach varStatus="status" var="customer" items="${customerList}">
-        <tr>
-            <td class="text-center">${status.count}</td>
-            <td>${customer.customerName}</td>
-            <td class="text-center">${customer.customerBirthday}</td>
-            <c:if test="${customer.customerGender == 1}">
-                <td class="text-center">Male</td>
-            </c:if>
-            <c:if test="${customer.customerGender == 0}">
-                <td class="text-center">Female</td>
-            </c:if>
-            <td class="text-center">${customer.customerIdCard}</td>
-            <td class="text-center">${customer.customerPhone}</td>
-            <td>${customer.customerEmail}</td>
-            <td>${customer.customerAddress}</td>
-            <c:forEach var="customerType" items="${customerTypeList}">
-                <c:if test="${customerType.customerTypeId == customer.customerTypeId}">
-                    <td class="text-center">${customerType.customerTypeName}</td>
-                </c:if>
-            </c:forEach>
+        <tr th:each="customer, status : ${customerList}">
+            <td th:text="${customerList.number * 5 + status.count}"></td>
+            <td th:text="${customer.customerName}"></td>
+            <td th:text="${customer.customerBirthday}"></td>
+            <td th:if="${customer.customerGender == 1}" th:text="Male"></td>
+            <td th:if="${customer.customerGender == 0}" th:text="Female"></td>
+            <td th:text="${customer.customerIdCard}"></td>
+            <td th:text="${customer.customerPhone}"></td>
+            <td th:text="${customer.customerEmail}"></td>
+            <td th:text="${customer.customerAddress}"></td>
+            <td th:if="${customer.customerId}" th:text="${customer.customerType.customerTypeName}"></td>
+            <td th:unless="${customer.customerType}"></td>
             <td class="text-center">
-                <a href="/customer?action=update&customer_id=${customer.getCustomerId()}">
-                    <span class="fa-solid fa-user-pen text-primary h4 m-auto"></span>
+                <a th:href="@{/customer/edit/__${customer.customerId}__}">
+                    <span><i class="fa-solid fa-pen-to-square"></i></span>
                 </a>
             </td>
             <td class="text-center">
                 <a data-bs-toggle="modal" data-bs-target="#exampleModal"
-                   onclick="deleteCustomer('${customer.getCustomerId()}','${customer.getCustomerName()}')">
-                    <span class="fa-solid fa-person-circle-minus text-danger h4 m-auto"></span>
+                   onclick="deleteCustomer('${customer.customerId}','${customer.customerName}')">
+                    <span class="text-danger"><i class="fa-solid fa-trash-can"></i></span>
                 </a>
+            </td>
+            <td class="text-center">
+                <button th:attr="onclick=|viewCustomer('${customer.customerName}', '${customer.customerBirthday}',
+                '${customer.customerGender}', '${customer.customerIdCard}', '${customer.customerPhone}',
+                '${customer.customerEmail}', '${customer.customerAddress}',
+                '${customer.customerType.customerTypeName}')|"
+                        class="btn btn-warning btn-outline-secondary btn-sm" data-bs-toggle="modal"
+                        data-bs-target="#viewCustomer">
+                    <span class="fa-solid fa-user text-light h6 m-auto px-2"></span>
+                </button>
             </td>
         </tr>
     </c:forEach>
@@ -92,6 +97,13 @@
 </table>
 
 <a href="/"><i class="fa-solid fa-house-chimney h5 mx-1"></i> Back to HOME</a>
-
+    <div>
+        <a th:href="@{'customer/list'(page=${customerList.number - 1},
+    nameSearch=${nameSearch}, addressSearch=${addressSearch}, phoneSearch=${phoneSearch})}" th:if="${customerList.hasPrevious()}">Previous</a>
+        <span th:text="${customerList.number + 1}"></span>
+        <span th:text="${customerList.totalPages}"></span>
+        <a th:href="@{'customer/list'(page=${customerList.number + 1}, nameSearch=${nameSearch}, addressSearch=${addressSearch}, phoneSearch=${phoneSearch})}" th:if="${customerList.hasNext()}">Next</a>
+    </div>
+</div>
 </body>
 </html>

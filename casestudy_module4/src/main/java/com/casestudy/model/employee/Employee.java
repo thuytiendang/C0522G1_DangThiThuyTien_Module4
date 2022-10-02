@@ -18,6 +18,7 @@ public class Employee {
     private String employeePhone;
     private String employeeEmail;
     private String employeeAddress;
+    private boolean isDelete;
 
     @ManyToOne
     @JoinColumn(name = "division_id", referencedColumnName = "divisionId")
@@ -38,7 +39,7 @@ public class Employee {
     }
 
     public Employee(int employeeId, String employeeName, String employeeBirthday, String employeeIdCard, double employeeSalary,
-                    String employeePhone, String employeeEmail, String employeeAddress, Division division,
+                    String employeePhone, String employeeEmail, String employeeAddress, boolean isDelete, Division division,
                     EducationDegree educationDegree, Position position, Set<Contract> contracts) {
         this.employeeId = employeeId;
         this.employeeName = employeeName;
@@ -48,6 +49,7 @@ public class Employee {
         this.employeePhone = employeePhone;
         this.employeeEmail = employeeEmail;
         this.employeeAddress = employeeAddress;
+        this.isDelete = isDelete;
         this.division = division;
         this.educationDegree = educationDegree;
         this.position = position;
@@ -148,5 +150,13 @@ public class Employee {
 
     public void setContracts(Set<Contract> contracts) {
         this.contracts = contracts;
+    }
+
+    public boolean isDelete() {
+        return isDelete;
+    }
+
+    public void setDelete(boolean delete) {
+        isDelete = delete;
     }
 }

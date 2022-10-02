@@ -25,8 +25,8 @@ public class CustomerService implements ICustomerService {
     }
 
     @Override
-    public void deleteCustomer(int id) {
-        iCustomerRepository.deleteById(id);
+    public void deleteLogical(Integer id){
+        iCustomerRepository.deleteLogical(id);
     }
 
     @Override
@@ -40,7 +40,14 @@ public class CustomerService implements ICustomerService {
     }
 
     @Override
-    public Page<Customer> search(String name, String address, String phone, Pageable pageable) {
-        return iCustomerRepository.search(name, address, phone, pageable);
+    public Page<Customer> search(String nameSearch, String addressSearch, String phoneSearch, Pageable pageable) {
+        return iCustomerRepository.search(nameSearch, addressSearch, phoneSearch, pageable);
     }
+
+//    @Override
+//    public Page<Customer> findByCustomerNameContainingAndCustomerAddressContainingAndCustomerPhoneContaining(String nameSearch, String addressSearch, String phoneSearch, Pageable pageable) {
+//        return iCustomerRepository.findAllByCustomerNameContainingAndCustomerAddressContainingAndCustomerPhoneContaining(nameSearch, addressSearch, phoneSearch, pageable);
+//    }
+
+
 }

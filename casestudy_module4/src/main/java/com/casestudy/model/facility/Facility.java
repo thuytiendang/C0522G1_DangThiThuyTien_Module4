@@ -20,6 +20,7 @@ public class Facility {
     private double poolArea;
     private int numberOfFloors;
     private String facilityFree;
+    private boolean isDelete;
 
     @OneToMany(mappedBy = "facility")
     private Set<Contract> contracts;
@@ -36,9 +37,9 @@ public class Facility {
     public Facility() {
     }
 
-    public Facility(int facilityId, String facilityName, int facilityArea, double facilityCost, int maxPeople,
-                    String standardRoom, String descriptionOtherConvenience, double poolArea, int numberOfFloors,
-                    String facilityFree, Set<Contract> contracts, FacilityType facilityType, RentType rentType) {
+    public Facility(int facilityId, String facilityName, int facilityArea, double facilityCost, int maxPeople, String standardRoom,
+                    String descriptionOtherConvenience, double poolArea, int numberOfFloors, String facilityFree,
+                    boolean isDelete, Set<Contract> contracts, FacilityType facilityType, RentType rentType) {
         this.facilityId = facilityId;
         this.facilityName = facilityName;
         this.facilityArea = facilityArea;
@@ -49,6 +50,7 @@ public class Facility {
         this.poolArea = poolArea;
         this.numberOfFloors = numberOfFloors;
         this.facilityFree = facilityFree;
+        this.isDelete = isDelete;
         this.contracts = contracts;
         this.facilityType = facilityType;
         this.rentType = rentType;
@@ -156,5 +158,13 @@ public class Facility {
 
     public void setRentType(RentType rentType) {
         this.rentType = rentType;
+    }
+
+    public boolean isDelete() {
+        return isDelete;
+    }
+
+    public void setDelete(boolean delete) {
+        isDelete = delete;
     }
 }

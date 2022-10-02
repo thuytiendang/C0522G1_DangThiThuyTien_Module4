@@ -18,6 +18,7 @@ public class Customer {
     private String customerPhone;
     private String customerEmail;
     private String customerAddress;
+    private boolean isDelete;
 
     @ManyToOne
     @JoinColumn(name = "customer_type_id", referencedColumnName = "customerTypeId")
@@ -30,7 +31,8 @@ public class Customer {
     }
 
     public Customer(int customerId, String customerName, String customerBirthday, String customerGender, String customerIdCard,
-                    String customerPhone, String customerEmail, String customerAddress, CustomerType customerType, Set<Contract> contracts) {
+                    String customerPhone, String customerEmail, String customerAddress, boolean isDelete,
+                    CustomerType customerType, Set<Contract> contracts) {
         this.customerId = customerId;
         this.customerName = customerName;
         this.customerBirthday = customerBirthday;
@@ -39,6 +41,7 @@ public class Customer {
         this.customerPhone = customerPhone;
         this.customerEmail = customerEmail;
         this.customerAddress = customerAddress;
+        this.isDelete = isDelete;
         this.customerType = customerType;
         this.contracts = contracts;
     }
@@ -121,5 +124,13 @@ public class Customer {
 
     public void setContracts(Set<Contract> contracts) {
         this.contracts = contracts;
+    }
+
+    public boolean isDelete() {
+        return isDelete;
+    }
+
+    public void setDelete(boolean delete) {
+        isDelete = delete;
     }
 }
