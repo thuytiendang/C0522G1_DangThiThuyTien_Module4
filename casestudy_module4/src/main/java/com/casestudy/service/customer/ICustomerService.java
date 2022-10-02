@@ -17,7 +17,7 @@ public interface ICustomerService {
 
     Customer findById(int id);
 
-//    Page<Customer> findByCustomerNameContainingAndCustomerAddressContainingAndCustomerPhoneContaining(String nameSearch, String addressSearch, String phoneSearch, Pageable pageable);
-Page<Customer> search(String nameSearch, String addressSearch, String phoneSearch, Pageable pageable);
+    //    Page<Customer> findByCustomerNameContainingAndCustomerAddressContainingAndCustomerPhoneContaining(String nameSearch, String addressSearch, String phoneSearch, Pageable pageable);
+    Page<Customer> search(Pageable pageable, String nameSearch, String addressSearch, String phoneSearch);
 
 }

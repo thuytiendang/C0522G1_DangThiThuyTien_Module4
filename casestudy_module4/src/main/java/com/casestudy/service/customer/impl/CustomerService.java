@@ -40,8 +40,8 @@ public class CustomerService implements ICustomerService {
     }
 
     @Override
-    public Page<Customer> search(String nameSearch, String addressSearch, String phoneSearch, Pageable pageable) {
-        return iCustomerRepository.search(nameSearch, addressSearch, phoneSearch, pageable);
+    public Page<Customer> search(Pageable pageable, String nameSearch, String addressSearch, String phoneSearch) {
+        return iCustomerRepository.search(pageable, nameSearch, addressSearch, phoneSearch);
     }
 
 //    @Override

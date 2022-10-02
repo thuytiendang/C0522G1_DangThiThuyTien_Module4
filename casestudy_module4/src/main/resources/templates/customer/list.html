@@ -8,7 +8,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
             crossorigin="anonymous"></script>
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
     <style>
         table {
             border: solid 3px;
@@ -34,9 +34,9 @@
     </button>
 </a>
 <form th:action="@{/customer/list}" class="my-3" method="get">
-    <input type="text" name="nameSearch" placeholder="nameSearch">
-    <input type="text" name="addressSearch" placeholder="addressSearch">
-    <input type="text" name="phoneSearch" placeholder="phoneSearch">
+    <input type="text" name="nameSearch" th:value="${nameSearch}" placeholder="nameSearch">
+    <input type="text" name="addressSearch" th:value="${addressSearch}" placeholder="addressSearch">
+    <input type="text" name="phoneSearch" th:value="${phoneSearch}" placeholder="phoneSearch">
     <button type="submit" name="action" value="search" class="btn btn-secondary btn-sm">Search</button>
 </form>
 
@@ -62,8 +62,8 @@
             <td th:text="${customerList.number * 5 + status.count}"></td>
             <td th:text="${customer.customerName}"></td>
             <td th:text="${customer.customerBirthday}"></td>
-            <td th:if="${customer.customerGender == 1}" th:text="Male"></td>
-            <td th:if="${customer.customerGender == 0}" th:text="Female"></td>
+            <td th:if="${customer.customerGender== '1'}" th:text="Male"></td>
+            <td th:if="${customer.customerGender == '0'}" th:text="Female"></td>
             <td th:text="${customer.customerIdCard}"></td>
             <td th:text="${customer.customerPhone}"></td>
             <td th:text="${customer.customerEmail}"></td>
@@ -78,7 +78,7 @@
             <td class="text-center">
                 <a data-bs-toggle="modal" data-bs-target="#exampleModal"
                    onclick="deleteCustomer('${customer.customerId}','${customer.customerName}')">
-                    <span class="text-danger"><i class="fa-solid fa-trash-can"></i></span>
+                    <span><i class="fa-solid fa-trash-can"></i></span>
                 </a>
             </td>
             <td class="text-center">
@@ -98,11 +98,11 @@
 
 <a href="/"><i class="fa-solid fa-house-chimney h5 mx-1"></i> Back to HOME</a>
     <div>
-        <a th:href="@{'customer/list'(page=${customerList.number - 1},
+        <a th:href="@{'/customer/list'(page=${customerList.number - 1},
     nameSearch=${nameSearch}, addressSearch=${addressSearch}, phoneSearch=${phoneSearch})}" th:if="${customerList.hasPrevious()}">Previous</a>
         <span th:text="${customerList.number + 1}"></span>
         <span th:text="${customerList.totalPages}"></span>
-        <a th:href="@{'customer/list'(page=${customerList.number + 1}, nameSearch=${nameSearch}, addressSearch=${addressSearch}, phoneSearch=${phoneSearch})}" th:if="${customerList.hasNext()}">Next</a>
+        <a th:href="@{'/customer/list'(page=${customerList.number + 1}, nameSearch=${nameSearch}, addressSearch=${addressSearch}, phoneSearch=${phoneSearch})}" th:if="${customerList.hasNext()}">Next</a>
     </div>
 </div>
 </body>

@@ -11,9 +11,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -32,14 +30,28 @@ public class CustomerController {
                                    @RequestParam(value = "nameSearch", defaultValue = "") String nameSearch,
                                    @RequestParam(value = "addressSearch", defaultValue = "") String addressSearch,
                                    @RequestParam(value = "phoneSearch", defaultValue = "") String phoneSearch,
-                                   Model model){
+                                   Model model) {
         List<CustomerType> customerTypes = iCustomerTypeService.showListTypeCustomer();
-        Page<Customer> customers = iCustomerService.search(nameSearch, addressSearch, phoneSearch, pageable);
+        Page<Customer> customers = iCustomerService.search(pageable, nameSearch, addressSearch, phoneSearch);
         model.addAttribute("nameSearch", nameSearch);
         model.addAttribute("addressSearch", addressSearch);
         model.addAttribute("phoneSearch", phoneSearch);
         model.addAttribute("customerTypes", customerTypes);
         model.addAttribute("customerList", customers);
         return "customer/list";
+    }
+
+    @GetMapping("/create")
+    public String createCustomer(Model model) {
+        model.addAttribute("customerTypes", iCustomerTypeService.showListTypeCustomer());
+        model.addAttribute("customer", new Customer());
+        return "customer/create";
+    }
+
+    @PostMapping("/add")
+    public String saveCustomer(Customer customer) {
+        System.out.println(customer.getCustomerType());
+        iCustomerService.addNewCustomer(customer);
+        return "redirect:/customer/list";
     }
 }
