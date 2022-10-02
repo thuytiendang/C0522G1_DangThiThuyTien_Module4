@@ -9,6 +9,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import javax.transaction.Transactional;
+
 @Repository
 public interface ICustomerRepository extends JpaRepository<Customer, Integer> {
 
@@ -21,6 +23,7 @@ public interface ICustomerRepository extends JpaRepository<Customer, Integer> {
                           @Param("phoneSearch") String phoneSearch);
 
     @Modifying
+    @Transactional
     @Query(value = "update customer set is_delete = 1 where customer_id = :idDelete", nativeQuery = true)
     void deleteLogical(@Param("idDelete") Integer id);
 

@@ -20,93 +20,205 @@
 
         a:hover {
             text-decoration: underline;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
 <div th:replace="~{/home::header}"></div>
 <div class="p-3">
-<h2 class="text-center fw-bold">CUSTOMER LIST</h2>
+    <h2 class="text-center fw-bold text-info">CUSTOMER LIST</h2>
 
-<a th:href="@{/customer/create}">
-    <button class="btn btn-success btn-sm my-2">
-        <span class="fa-solid fa-person-circle-plus text-light h5 my-auto me-1"></span> Add new Customer
-    </button>
-</a>
-<form th:action="@{/customer/list}" class="my-3" method="get">
-    <input type="text" name="nameSearch" th:value="${nameSearch}" placeholder="nameSearch">
-    <input type="text" name="addressSearch" th:value="${addressSearch}" placeholder="addressSearch">
-    <input type="text" name="phoneSearch" th:value="${phoneSearch}" placeholder="phoneSearch">
-    <button type="submit" name="action" value="search" class="btn btn-secondary btn-sm">Search</button>
-</form>
+    <a th:href="@{/customer/create}">
+        <button class="btn btn-success btn-sm my-2">
+            <span class="fa-solid fa-person-circle-plus text-light h5 my-auto me-1"></span> Add new Customer
+        </button>
+    </a>
+    <form th:action="@{/customer/list}" class="my-3" method="get">
+        <input type="text" name="nameSearch" th:value="${nameSearch}" placeholder="nameSearch">
+        <input type="text" name="addressSearch" th:value="${addressSearch}" placeholder="addressSearch">
+        <input type="text" name="phoneSearch" th:value="${phoneSearch}" placeholder="phoneSearch">
+        <button class="btn btn-outline-success" type="submit">
+            <i class="fa-solid fa-magnifying-glass"></i></button>
+    </form>
     <div class="notify" style="text-align: center; color: red">
         <div th:if="${mess}">
             <span th:text="${mess}"></span>
         </div>
     </div>
-<table class="table table-striped table-bordered" id="customerTable">
-    <thead>
-    <tr class="text-center bg-info">
-        <th>Number</th>
-        <th>Name</th>
-        <th>Date of Birth</th>
-        <th>Gender</th>
-        <th>Id card</th>
-        <th>Phone number</th>
-        <th>Email</th>
-        <th>Address</th>
-        <th>Customer type</th>
-        <th>Update</th>
-        <th>Delete</th>
-        <th>View</th>
-    </tr>
-    </thead>
-    <tbody>
+    <table class="table table-striped table-bordered" id="customerTable">
+        <thead>
+        <tr class="text-center bg-info">
+            <th>Serial</th>
+            <th>Name</th>
+            <!--            <th>Date of Birth</th>-->
+            <th>Gender</th>
+            <th>Id card</th>
+            <th>Phone number</th>
+            <!--            <th>Email</th>-->
+            <!--            <th>Address</th>-->
+            <th>Customer type</th>
+            <th>Update</th>
+            <th>Delete</th>
+            <th>View</th>
+        </tr>
+        </thead>
+        <tbody>
         <tr th:each="customer, status : ${customerList}">
             <td th:text="${customerList.number * 5 + status.count}"></td>
             <td th:text="${customer.customerName}"></td>
-            <td th:text="${customer.customerBirthday}"></td>
+            <!--            <td th:text="${customer.customerBirthday}"></td>-->
             <td th:if="${customer.customerGender== '1'}" th:text="Male"></td>
             <td th:if="${customer.customerGender == '0'}" th:text="Female"></td>
             <td th:text="${customer.customerIdCard}"></td>
             <td th:text="${customer.customerPhone}"></td>
-            <td th:text="${customer.customerEmail}"></td>
-            <td th:text="${customer.customerAddress}"></td>
-            <td th:if="${customer.customerId}" th:text="${customer.customerType.customerTypeName}"></td>
-            <td th:unless="${customer.customerType}"></td>
+            <!--            <td th:text="${customer.customerEmail}"></td>-->
+            <!--            <td th:text="${customer.customerAddress}"></td>-->
+            <td th:text="${customer.customerType.customerTypeName}"></td>
             <td class="text-center">
                 <a th:href="@{/customer/edit/__${customer.customerId}__}">
-                    <span><i class="fa-solid fa-pen-to-square"></i></span>
+                    <span class="text-warning"><i class="fa-solid fa-pen-to-square"></i></span>
                 </a>
             </td>
             <td class="text-center">
-                <a data-bs-toggle="modal" data-bs-target="#exampleModal"
-                   onclick="deleteCustomer('${customer.customerId}','${customer.customerName}')">
-                    <span><i class="fa-solid fa-trash-can"></i></span>
+                <a data-bs-toggle="modal" data-bs-target="#deleteCustomer"
+                   th:attr="onclick=|remove('${customer.customerId}', '${customer.customerName}')|">
+                    <span class="text-danger"><i class="fa-solid fa-trash-can"></i></span>
                 </a>
             </td>
+            <!--            <td class="text-center">-->
+            <!--                <a data-bs-toggle="modal" data-bs-target="#deleteCustomer"-->
+            <!--                   th:attr="onclick=|deleteCustomer('${customer}')|">-->
+            <!--                    <span><i class="fa-solid fa-trash-can"></i></span>-->
+            <!--                </a>-->
+            <!--            </td>-->
             <td class="text-center">
-                <button th:attr="onclick=|viewCustomer('${customer.customerName}', '${customer.customerBirthday}',
+                <a th:attr="onclick=|details('${customer.customerName}', '${customer.customerBirthday}',
                 '${customer.customerGender}', '${customer.customerIdCard}', '${customer.customerPhone}',
                 '${customer.customerEmail}', '${customer.customerAddress}',
-                '${customer.customerType.customerTypeName}')|"
-                        class="btn btn-warning btn-outline-secondary btn-sm" data-bs-toggle="modal"
-                        data-bs-target="#viewCustomer">
-                    <span class="fa-solid fa-user text-light h6 m-auto px-2"></span>
-                </button>
+                '${customer.customerType.customerTypeName}')|" data-bs-toggle="modal" data-bs-target="#viewCustomer">
+                    <span class="text-success"><i class="fa-solid fa-eye"></i></span>
+                </a>
             </td>
         </tr>
-    </tbody>
-</table>
+        </tbody>
+    </table>
 
-<a href="/"><i class="fa-solid fa-house-chimney h5 mx-1"></i> Back to HOME</a>
+    <!--    modal delete-->
+    <div class="modal fade" id="deleteCustomer" tabindex="-1" aria-labelledby="exampleModalLabel1"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="exampleModalLabel1">Are you sure to delete?</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <form th:action="@{/customer/delete}">
+                    <div class="modal-body">
+                        <span class="h6">Customer:</span><strong id="nameDelete" class="text-danger ps-2"></strong>
+                        <input type="hidden" name="id" id="idDelete"/>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-danger" value="delete">Delete</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!--view-->
+    <div class="modal fade" id="viewCustomer" tabindex="-1" aria-labelledby="exampleModalLabel1"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="exampleModalLabel2">Customer information</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-success table-striped">
+                        <tr>
+                            <th>Name</th>
+                            <td><span id="name"></span></td>
+                        </tr>
+                        <tr>
+                            <th>Date of Birth</th>
+                            <td><span id="dob"></span></td>
+                        </tr>
+                        <tr>
+                            <th>Gender</th>
+                            <td><span id="gender"></span></td>
+                        </tr>
+                        <tr>
+                            <th>Id card</th>
+                            <td><span id="idCard"></span></td>
+                        </tr>
+                        <tr>
+                            <th>Phone number</th>
+                            <td><span id="phone"></span></td>
+                        </tr>
+                        <tr>
+                            <th>Email</th>
+                            <td><span id="email"></span></td>
+                        </tr>
+                        <tr>
+                            <th>Address</th>
+                            <td><span id="address"></span></td>
+                        </tr>
+                        <tr>
+                            <th>Customer type</th>
+                            <td><span id="customerType"></span></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <a href="/"><i class="fa-solid fa-house-chimney h5 mx-1"></i> Back to HOME</a>
     <div>
         <a th:href="@{'/customer/list'(page=${customerList.number - 1},
-    nameSearch=${nameSearch}, addressSearch=${addressSearch}, phoneSearch=${phoneSearch})}" th:if="${customerList.hasPrevious()}">Previous</a>
+    nameSearch=${nameSearch}, addressSearch=${addressSearch}, phoneSearch=${phoneSearch})}"
+           th:if="${customerList.hasPrevious()}">Previous</a>
         <span th:text="${customerList.number + 1}"></span>
         <span th:text="${customerList.totalPages}"></span>
-        <a th:href="@{'/customer/list'(page=${customerList.number + 1}, nameSearch=${nameSearch}, addressSearch=${addressSearch}, phoneSearch=${phoneSearch})}" th:if="${customerList.hasNext()}">Next</a>
+        <a th:href="@{'/customer/list'(page=${customerList.number + 1}, nameSearch=${nameSearch}, addressSearch=${addressSearch}, phoneSearch=${phoneSearch})}"
+           th:if="${customerList.hasNext()}">Next</a>
     </div>
 </div>
+
+<script>
+    function remove(id, name) {
+        document.getElementById("idDelete").value = id;
+        document.getElementById("nameDelete").innerText = name;
+    }
+
+    function details(name, dob, gender, idCard, phone, email, address, customerType) {
+        document.getElementById("name").innerText = name;
+        document.getElementById("dob").innerText = dob;
+        if (gender == 0) {
+            document.getElementById("gender").innerText = "Female";
+        } else {
+            document.getElementById("gender").innerText = "Male";
+        }
+        document.getElementById("idCard").innerText = idCard;
+        document.getElementById("phone").innerText = phone;
+        document.getElementById("email").innerText = email;
+        document.getElementById("address").innerText = address;
+        document.getElementById("customerType").innerText = customerType;
+    }
+
+    // function deleteCustomer(value) {
+    //     console.log(value);
+    //     document.getElementById("idDelete").value = value.customerId;
+    //     document.getElementById("nameDelete").innerText = value.customerName;
+    // }
+</script>
 </body>
 </html>
