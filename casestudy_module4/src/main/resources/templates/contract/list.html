@@ -29,6 +29,64 @@
     </style>
 </head>
 <body>
+<div th:replace="~{/home::header}"></div>
+<div class="p-3">
+    <h2 class="text-center fw-bold text-primary">CONTRACT LIST</h2>
 
+    <p class="text-center mt-3"><a href="/"><i class="fa-solid fa-house-chimney h5 mx-1"></i> Back to HOME</a></p>
+
+    <nav class="navbar navbar-expand-lg py-0 my-0">
+        <div class="container-fluid">
+            <a th:href="@{/contract/create}">
+                <button class="btn btn-success btn-outline-secondary btn-sm">
+                    <span class="fa-solid fa-plus text-light h6 my-auto me-1"></span>
+                    <span class="text-light"> Add new Contract</span>
+                </button>
+            </a>
+        </div>
+    </nav>
+
+    <table id="contractTable" class="table table-striped table-bordered">
+        <thead>
+        <tr class="text-center bg-info">
+            <th class="text-center">Serial</th>
+            <th>Facility</th>
+            <th>Employee</th>
+            <th>Customer</th>
+            <th>Start day</th>
+            <th>End day</th>
+            <th>Deposit</th>
+            <th>Total money</th>
+            <th>Attach facility</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="contract, status : ${contractList}">
+            <td class="text-center" th:text="${status.count}"></td>
+            <td th:text="${contract.facilityName}"></td>
+            <td th:text="${contract.employeeName}"></td>
+            <td th:text="${contract.customerName}"></td>
+            <td th:text="${contract.startDate}"></td>
+            <td th:text="${contract.endDate}"></td>
+            <td th:text="${'₫ ' + contract.deposit}"></td>
+            <td th:text="${'₫ ' + contract.totalMoney}"></td>
+            <td class="text-center">
+                <button th:attr="onclick=|addContractdetail('${contract.contractId}')|"
+                        class="btn btn-primary btn-outline-secondary btn-sm" data-bs-toggle="modal"
+                        data-bs-target="#addContractdetail">
+                    <span class="fa-solid fa-plus text-light h6 m-auto"></span>
+                </button>
+
+                <a th:href="@{/contract/__${contract.contractId}__}">
+                    <button class="btn btn-primary btn-outline-secondary btn-sm ms-3 px-3">
+                        <span class="text-light m-auto">Attach facility list</span>
+                    </button>
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
 </body>
 </html>
