@@ -14,7 +14,6 @@ interface First {
 
 interface Second {
 }
-
 @GroupSequence(value = {CustomerDto.class, First.class, Second.class})
 public class CustomerDto {
     private int customerId;
@@ -45,6 +44,8 @@ public class CustomerDto {
     @NotBlank(groups = First.class)
     private String customerAddress;
 
+    private boolean isDelete;
+
     private CustomerType customerType;
 
     private Set<Contract> contracts;
@@ -52,9 +53,9 @@ public class CustomerDto {
     public CustomerDto() {
     }
 
-    public CustomerDto(int customerId, String customerName, String customerBirthday, String customerGender, String customerIdCard,
-                       String customerPhone, String customerEmail, String customerAddress, CustomerType customerType,
-                       Set<Contract> contracts) {
+    public CustomerDto(int customerId, String customerName, String customerBirthday, String customerGender,
+                       String customerIdCard, String customerPhone, String customerEmail, String customerAddress,
+                       boolean isDelete, CustomerType customerType, Set<Contract> contracts) {
         this.customerId = customerId;
         this.customerName = customerName;
         this.customerBirthday = customerBirthday;
@@ -63,6 +64,7 @@ public class CustomerDto {
         this.customerPhone = customerPhone;
         this.customerEmail = customerEmail;
         this.customerAddress = customerAddress;
+        this.isDelete = isDelete;
         this.customerType = customerType;
         this.contracts = contracts;
     }
@@ -145,5 +147,13 @@ public class CustomerDto {
 
     public void setContracts(Set<Contract> contracts) {
         this.contracts = contracts;
+    }
+
+    public boolean isDelete() {
+        return isDelete;
+    }
+
+    public void setDelete(boolean delete) {
+        isDelete = delete;
     }
 }

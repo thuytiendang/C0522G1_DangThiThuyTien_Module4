@@ -69,14 +69,14 @@ public class CustomerController {
     }
 
     @GetMapping("/edit/{id}")
-    public String edit (@PathVariable int id, Model model){
+    public String editCustomer (@PathVariable int id, Model model){
         model.addAttribute("customerTypes", iCustomerTypeService.showListTypeCustomer());
         model.addAttribute("customer", iCustomerService.findById(id));
         return "customer/edit";
     }
 
     @PostMapping("/update")
-    public String update(@Validated @ModelAttribute("customer") CustomerDto customerDto, BindingResult bindingResult,
+    public String updateCustomer(@Validated @ModelAttribute("customer") CustomerDto customerDto, BindingResult bindingResult,
                          RedirectAttributes redirectAttributes, Model model){
         if (bindingResult.hasFieldErrors()){
             model.addAttribute("customerTypes", iCustomerTypeService.showListTypeCustomer());
@@ -91,14 +91,14 @@ public class CustomerController {
     }
 
     @GetMapping("/delete")
-    public String delete(@RequestParam int id, RedirectAttributes redirectAttributes){
+    public String deleteCustomer(@RequestParam int id, RedirectAttributes redirectAttributes){
         iCustomerService.deleteLogical(id);
         redirectAttributes.addFlashAttribute("mess", "Delete customer successfully!");
         return "redirect:/customer/list";
     }
 
     @GetMapping("/view")
-    public String view(@RequestParam int id){
+    public String viewCustomer(@RequestParam int id){
         iCustomerService.findById(id);
         return "redirect:/customer/list";
     }

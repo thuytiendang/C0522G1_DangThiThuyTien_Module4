@@ -3,7 +3,6 @@ package com.casestudy.service.customer;
 import com.casestudy.model.customer.Customer;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.repository.query.Param;
 
 public interface ICustomerService {
 

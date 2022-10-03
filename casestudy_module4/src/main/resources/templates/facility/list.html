@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Facility List</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
+</head>
+<body>
+<div th:replace="~{/home::header}"></div>
+<div class="p-3">
+    <h2 class="text-center fw-bold text-info">FACILITY LIST</h2>
+
+    <a th:href="@{/facility/create}">
+        <button class="btn btn-success btn-sm my-2">
+            <span class="fa-solid fa-person-circle-plus text-light h5 my-auto me-1"></span> Add new Facility
+        </button>
+    </a>
+    <form th:action="@{/facility/list}" class="my-3" method="get">
+        <input type="text" name="facilityName" th:value="${facilityName}" placeholder="Input name">
+        <button class="btn btn-outline-success" type="submit">
+            <i class="fa-solid fa-magnifying-glass"></i></button>
+    </form>
+    <div class="notify" style="text-align: center; color: red">
+        <div th:if="${mess}">
+            <span th:text="${mess}"></span>
+        </div>
+    </div>
+
+    <table class="table table-striped table-bordered" id="facilityTable">
+        <thead>
+        <tr class="text-center bg-info">
+            <th>Serial</th>
+            <th>Name</th>
+            <th>Area</th>
+            <th>Cost</th>
+            <th>Max people</th>
+            <th>Standard room</th>
+            <th>Other convenience</th>
+            <th>Pool area</th>
+            <th>Floor</th>
+            <th>Facility free</th>
+            <th>Type of rent</th>
+            <th>Type of facility</th>
+            <th>Update</th>
+            <th>Delete</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="facility, status : ${facilityList}">
+            <td th:text="${facilityList.number * 5 + status.count}"></td>
+            <td th:text="${facility.facilityName}"></td>
+            <td th:text="${facility.facilityArea}"></td>
+            <td th:text="${facility.facilityCost}"></td>
+            <td th:text="${facility.maxPeople}"></td>
+            <td th:text="${facility.standardRoom}"></td>
+            <td th:text="${facility.descriptionOtherConvenience}"></td>
+            <td th:text="${facility.poolArea}"></td>
+            <td th:text="${facility.numberOfFloors}"></td>
+            <td th:text="${facility.facilityFree}"></td>
+            <td th:text="${facility.rentType.rentTypeName}"></td>
+            <td th:text="${facility.facilityType.facilityTypeName}"></td>
+            <td class="text-center">
+                <a th:href="@{/customer/edit/__${facility.facilityId}__}">
+                    <span class="text-warning"><i class="fa-solid fa-pen-to-square"></i></span>
+                </a>
+            </td>
+            <td class="text-center">
+                <a data-bs-toggle="modal" data-bs-target="#deleteFacility"
+                   th:attr="onclick=|remove('${facility.facilityId}', '${facility.facilityName}')|">
+                    <span class="text-danger"><i class="fa-solid fa-trash-can"></i></span>
+                </a>
+            </td>
+            <td class="text-center">
+                <a th:attr="onclick=|details('${facility.facilityName}', '${facility.facilityArea}',
+                '${facility.facilityCost}', '${facility.maxPeople}', '${facility.standardRoom}',
+                '${facility.descriptionOtherConvenience}', '${facility.poolArea}',  '${facility.numberOfFloors}', '${facility.facilityFree}',
+                '${facility.rentType.rentTypeName}', '${facility.facilityType.facilityTypeName}')|"
+                   data-bs-toggle="modal" data-bs-target="#viewFacility">
+                    <span class="text-success"><i class="fa-solid fa-eye"></i></span>
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <!--    modal delete-->
+    <div class="modal fade" id="deleteFacility" tabindex="-1" aria-labelledby="exampleModalLabel1"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="exampleModalLabel1">Are you sure to delete?</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <form th:action="@{/facility/delete}">
+                    <div class="modal-body">
+                        <span class="h6">Facility:</span><strong id="nameDelete" class="text-danger ps-2"></strong>
+                        <input type="hidden" name="id" id="idDelete"/>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-danger" value="delete">Delete</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!--view-->
+    <div class="modal fade" id="viewFacility" tabindex="-1" aria-labelledby="exampleModalLabel1"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="exampleModalLabel2">Facility information</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-success table-striped">
+                        <tr>
+                            <th>Name</th>
+                            <td><span id="name"></span></td>
+                        </tr>
+                        <tr>
+                            <th>Area</th>
+                            <td><span id="area"></span></td>
+                        </tr>
+                        <tr>
+                            <th>Price</th>
+                            <td><span id="cost"></span></td>
+                        </tr>
+                        <tr>
+                            <th>Max people</th>
+                            <td><span id="maxPeople"></span></td>
+                        </tr>
+                        <tr>
+                            <th>Standard room</th>
+                            <td><span id="standardRoom"></span></td>
+                        </tr>
+                        <tr>
+                            <th>Other convenience</th>
+                            <td><span id="OtherConvenience"></span></td>
+                        </tr>
+                        <tr>
+                            <th>Pool area</th>
+                            <td><span id="poolArea"></span></td>
+                        </tr>
+                        <tr>
+                            <th>Floor</th>
+                            <td><span id="floor"></span></td>
+                        </tr>
+                        <tr>
+                            <th>Facility free</th>
+                            <td><span id="facilityFree"></span></td>
+                        </tr>
+                        <tr>
+                            <th>Rent type</th>
+                            <td><span id="rentType"></span></td>
+                        </tr>
+                        <tr>
+                            <th>Facility type</th>
+                            <td><span id="facilityType"></span></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <a href="/"><i class="fa-solid fa-house-chimney h5 mx-1"></i> Back to HOME</a>
+
+    <div>
+        <a th:href="@{'/facility/list'(page=${facilityList.number - 1},
+    facilityName=${facilityName})}"
+           th:if="${facilityList.hasPrevious()}">Previous</a>
+        <span th:text="${facilityList.number + 1}"></span>
+        <span th:text="${facilityList.totalPages}"></span>
+        <a th:href="@{'/facility/list'(page=${facilityList.number + 1}, facilityName=${facilityName})}"
+           th:if="${facilityList.hasNext()}">Next</a>
+    </div>
+</div>
+
+<script>
+    function remove(id, name) {
+        document.getElementById("idDelete").value = id;
+        document.getElementById("nameDelete").innerText = name;
+    }
+
+    function details(name, area, cost, maxPeople, standardRoom, OtherConvenience, poolArea, floor, facilityFree, rentType, facilityType ) {
+        document.getElementById("name").innerText = name;
+        document.getElementById("area").value = area;
+        document.getElementById("cost").value = cost;
+        document.getElementById("maxPeople").value = maxPeople;
+        document.getElementById("standardRoom").innerText = standardRoom;
+        document.getElementById("OtherConvenience").innerText = OtherConvenience;
+        document.getElementById("poolArea").value = poolArea;
+        document.getElementById("floor").value = floor;
+        document.getElementById("facilityFree").innerText = facilityFree;
+        document.getElementById("rentType").innerText = rentType;
+        document.getElementById("facilityType").innerText = facilityType;
+    }
+</script>
+</body>
+</html>
