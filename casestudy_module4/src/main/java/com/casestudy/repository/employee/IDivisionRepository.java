@@ -1,4 +1,7 @@
 package com.casestudy.repository.employee;
 
-public interface IDivisionRepository {
+import com.casestudy.model.employee.Division;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface IDivisionRepository extends JpaRepository<Division, Integer> {
 }
