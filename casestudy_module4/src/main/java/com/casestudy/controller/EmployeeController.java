@@ -4,9 +4,6 @@ import com.casestudy.model.employee.Division;
 import com.casestudy.model.employee.EducationDegree;
 import com.casestudy.model.employee.Employee;
 import com.casestudy.model.employee.Position;
-import com.casestudy.model.facility.Facility;
-import com.casestudy.model.facility.FacilityType;
-import com.casestudy.model.facility.RentType;
 import com.casestudy.service.employee.IDivisionService;
 import com.casestudy.service.employee.IEducationDegreeService;
 import com.casestudy.service.employee.IEmployeeService;
@@ -18,14 +15,14 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
 @Controller
 @RequestMapping("/employee")
+//@CrossOrigin
 public class EmployeeController {
 
     @Autowired
@@ -57,6 +54,27 @@ public class EmployeeController {
         model.addAttribute("employeeName", employeeName);
         model.addAttribute("employeeAddress", employeeAddress);
         model.addAttribute("employeePhone", employeePhone);
+        model.addAttribute("employee", new Employee());
         return "employee/list";
+    }
+
+//    @PostMapping("/save")
+//    public String createEmployee(@RequestBody Employee employee){
+//        iEmployeeService.addNewEmployee(employee);
+//        return "redirect:/employee/list";
+//    }
+
+
+    @GetMapping("/delete")
+    public String deleteFacility(@RequestParam int id, RedirectAttributes redirectAttributes){
+        iEmployeeService.deleteLogical(id);
+        redirectAttributes.addFlashAttribute("mess", "Delete employee successfully!");
+        return "redirect:/employee/list";
+    }
+
+    @GetMapping("/view")
+    public String viewFacility(@RequestParam int id){
+        iEmployeeService.findById(id);
+        return "redirect:/employee/list";
     }
 }

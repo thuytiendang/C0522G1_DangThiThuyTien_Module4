@@ -21,7 +21,7 @@ public interface IEmployeeRepository extends JpaRepository<Employee, Integer> {
 
     @Modifying
     @Transactional
-    @Query(value = "update employee set is_delete = 1 where facility_id = :idDelete", nativeQuery = true)
+    @Query(value = "update employee set is_delete = 1 where employee_id = :idDelete", nativeQuery = true)
     void deleteLogical(@Param("idDelete") Integer id);
 
 }

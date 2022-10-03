@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Employee list</title>
+    <script src="jquery-3.5.1.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
-            crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <style>
         table {
             border: solid 3px;
@@ -28,31 +29,40 @@
 <div th:replace="~{/home::header}"></div>
 <div class="p-3">
 
-    <h2 class="text-center fw-bold">EMPLOYEE LIST</h2>
-    <a th:href="@{/employee/create}">
-        <button class="btn btn-success btn-sm my-2">
-            <span class="fa-solid fa-person-circle-plus text-light h5 my-auto me-1"></span> Add new Employee
-        </button>
-    </a>
-    <form th:action="@{/facility/list}" class="my-3">
+    <h2 class="text-center fw-bold text-info">EMPLOYEE LIST</h2>
+    <!--    <a th:href="@{/employee/create}">-->
+    <!--        <button class="btn btn-success btn-sm my-2">-->
+    <!--            <span class="fa-solid fa-person-circle-plus text-light h5 my-auto me-1"></span> Add new Employee-->
+    <!--        </button>-->
+    <!--    </a>-->
+
+    <button type="button" class="btn btn-success btn-sm my-2" data-bs-toggle="modal" data-bs-target="#createEmployee">
+        <span class="fa-solid fa-person-circle-plus text-light h5 my-auto me-1"></span> Add new Employee
+    </button>
+
+    <form th:action="@{/employee/list}" class="my-3">
         <input type="text" name="employeeName" placeholder="input name">
         <input type="text" name="employeeAddress" placeholder="input address">
         <input type="text" name="employeePhone" placeholder="input phone">
         <button class="btn btn-outline-success" type="submit">
             <i class="fa-solid fa-magnifying-glass"></i></button>
     </form>
-
+    <div class="notify" style="text-align: center; color: red">
+        <div th:if="${mess}">
+            <span th:text="${mess}"></span>
+        </div>
+    </div>
     <table class="table table-striped table-bordered" id="employeeTable">
         <thead>
         <tr class="text-center bg-info">
-            <th>Number</th>
+            <th>Serial</th>
             <th>Name</th>
-            <th>Date of Birth</th>
+            <!--            <th>Date of Birth</th>-->
             <th>Id card</th>
-            <th>Salary</th>
+            <!--            <th>Salary</th>-->
             <th>Phone number</th>
-            <th>Email</th>
-            <th>Address</th>
+            <!--            <th>Email</th>-->
+            <!--            <th>Address</th>-->
             <th>Position</th>
             <th>Degree</th>
             <th>Division</th>
@@ -64,43 +74,193 @@
         <tbody>
         <tr th:each="employee, status : ${employeeList}">
             <td th:text="${employeeList.number * 5 + status.count}"></td>
-            <td th:text="${customer.customerName}"></td>
-            <td th:text="${customer.customerBirthday}"></td>
-            <td th:if="${customer.customerGender== '1'}" th:text="Male"></td>
-            <td th:if="${customer.customerGender == '0'}" th:text="Female"></td>
-            <td th:text="${customer.customerIdCard}"></td>
-            <td th:text="${customer.customerPhone}"></td>
-            <td th:text="${customer.customerEmail}"></td>
-            <td th:text="${customer.customerAddress}"></td>
-            <td th:text="${customer.customerType.customerTypeName}"></td>
+            <td th:text="${employee.employeeName}"></td>
+            <!--            <td th:text="${employee.employeeBirthday}"></td>-->
+            <td th:text="${employee.employeeIdCard}"></td>
+            <!--            <td th:text="${employee.employeeSalary}"></td>-->
+            <td th:text="${employee.employeePhone}"></td>
+            <!--            <td th:text="${employee.employeeEmail}"></td>-->
+            <!--            <td th:text="${employee.employeeAddress}"></td>-->
+            <td th:text="${employee.position.positionName}"></td>
+            <td th:text="${employee.educationDegree.educationDegreeName}"></td>
+            <td th:text="${employee.division.divisionName}"></td>
             <td class="text-center">
-                <a th:href="@{/customer/edit/__${customer.customerId}__}">
+                <a th:href="@{/employee/edit/__${employee.employeeId}__}">
                     <span class="text-warning"><i class="fa-solid fa-pen-to-square"></i></span>
                 </a>
             </td>
             <td class="text-center">
-                <a data-bs-toggle="modal" data-bs-target="#deleteCustomer"
-                   th:attr="onclick=|remove('${customer.customerId}', '${customer.customerName}')|">
+                <a data-bs-toggle="modal" data-bs-target="#deleteEmployee"
+                   th:attr="onclick=|remove('${employee.employeeId}', '${employee.employeeName}')|">
                     <span class="text-danger"><i class="fa-solid fa-trash-can"></i></span>
                 </a>
             </td>
-            <!--            <td class="text-center">-->
-            <!--                <a data-bs-toggle="modal" data-bs-target="#deleteCustomer"-->
-            <!--                   th:attr="onclick=|deleteCustomer('${customer}')|">-->
-            <!--                    <span><i class="fa-solid fa-trash-can"></i></span>-->
-            <!--                </a>-->
-            <!--            </td>-->
             <td class="text-center">
-                <a th:attr="onclick=|details('${customer.customerName}', '${customer.customerBirthday}',
-                '${customer.customerGender}', '${customer.customerIdCard}', '${customer.customerPhone}',
-                '${customer.customerEmail}', '${customer.customerAddress}',
-                '${customer.customerType.customerTypeName}')|" data-bs-toggle="modal" data-bs-target="#viewCustomer">
+                <a th:attr="onclick=|details('${employee.employeeName}', '${employee.employeeBirthday}',
+                '${employee.employeeIdCard}', '${employee.employeeSalary}', '${employee.employeePhone}',
+                '${employee.employeeEmail}', '${employee.employeeAddress}',
+                '${employee.position.positionName}', '${employee.educationDegree.educationDegreeName}',
+                 '${employee.division.divisionName}')|" data-bs-toggle="modal" data-bs-target="#viewEmployee">
                     <span class="text-success"><i class="fa-solid fa-eye"></i></span>
                 </a>
             </td>
         </tr>
         </tbody>
     </table>
+
+    <!--    modal delete-->
+    <div class="modal fade" id="deleteEmployee" tabindex="-1" aria-labelledby="exampleModalLabel1"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="exampleModalLabel1">Are you sure to delete?</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <form th:action="@{/employee/delete}">
+                    <div class="modal-body">
+                        <span class="h6">Employee:</span><strong id="nameDelete" class="text-danger ps-2"></strong>
+                        <input type="hidden" name="id" id="idDelete"/>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-danger" value="delete">Delete</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!--view-->
+    <div class="modal fade" id="viewEmployee" tabindex="-1" aria-labelledby="exampleModalLabel1"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="exampleModalLabel2">Employee information</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-success table-striped">
+                        <tr>
+                            <th>Name</th>
+                            <td><span id="name"></span></td>
+                        </tr>
+                        <tr>
+                            <th>Date of Birth</th>
+                            <td><span id="dob"></span></td>
+                        </tr>
+                        <tr>
+                            <th>Id card</th>
+                            <td><span id="idCard"></span></td>
+                        </tr>
+                        <tr>
+                            <th>Salary</th>
+                            <td><span id="salary"></span></td>
+                        </tr>
+                        <tr>
+                            <th>Phone number</th>
+                            <td><span id="phone"></span></td>
+                        </tr>
+                        <tr>
+                            <th>Email</th>
+                            <td><span id="email"></span></td>
+                        </tr>
+                        <tr>
+                            <th>Address</th>
+                            <td><span id="address"></span></td>
+                        </tr>
+                        <tr>
+                            <th>Position</th>
+                            <td><span id="position"></span></td>
+                        </tr>
+                        <tr>
+                            <th>Degree</th>
+                            <td><span id="degree"></span></td>
+                        </tr>
+                        <tr>
+                            <th>Division</th>
+                            <td><span id="division"></span></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal create -->
+    <div class="modal fade" id="createEmployee" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Create Employee</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="employeeName" class="form-label">Employee name:</label>
+                        <input type="text" class="form-control" id="employeeName" placeholder="Input employee name">
+                    </div>
+                    <div class="mb-3">
+                        <label for="employeeBirthday" class="form-label">Employee birthday:</label>
+                        <input type="text" class="form-control" id="employeeBirthday"
+                               placeholder="Input employee birthday">
+                    </div>
+                    <div class="mb-3">
+                        <label for="employeeIdCard" class="form-label">Employee IdCard:</label>
+                        <input type="text" class="form-control" id="employeeIdCard" placeholder="Input employee IdCard">
+                    </div>
+                    <div class="mb-3">
+                        <label for="employeeSalary" class="form-label">Employee salary:</label>
+                        <input type="text" class="form-control" id="employeeSalary" placeholder="Input employee salary">
+                    </div>
+                    <div class="mb-3">
+                        <label for="employeePhone" class="form-label">Employee phone:</label>
+                        <input type="text" class="form-control" id="employeePhone" placeholder="Input employee phone">
+                    </div>
+                    <div class="mb-3">
+                        <label for="employeeEmail" class="form-label">Employee email:</label>
+                        <input type="text" class="form-control" id="employeeEmail" placeholder="Input employee email">
+                    </div>
+                    <div class="mb-3">
+                        <label for="employeeAddress" class="form-label">Employee address:</label>
+                        <input type="text" class="form-control" id="employeeAddress"
+                               placeholder="Input employee address">
+                    </div>
+                    <div class="mb-3">
+                        <label for="employeeDivision" class="form-label">Division:</label>
+                        <select id="employeeDivision" class="form-control" name="division">
+                            <option th:each="item : ${divisions}" th:value="${item.divisionId}"
+                                    th:text="${item.divisionName}"></option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="employeeEducationDegree" class="form-label">Education degree:</label>
+                        <select id="employeeEducationDegree" class="form-control" name="educationDegree">
+                            <option th:each="item : ${educationDegrees}" th:value="${item.educationDegreeId}"
+                                    th:text="${item.educationDegreeName}"></option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="employeePosition" class="form-label">Position:</label>
+                        <select id="employeePosition" class="form-control" name="position">
+                            <option th:each="item : ${positions}" th:value="${item.positionId}"
+                                    th:text="${item.positionName}"></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="btnCreate">Create</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <a href="/"><i class="fa-solid fa-house-chimney h5 mx-1"></i> Back to HOME</a>
 
@@ -115,5 +275,81 @@
     </div>
 
 </div>
+
+<script>
+    function remove(id, name) {
+        document.getElementById("idDelete").value = id;
+        document.getElementById("nameDelete").innerText = name;
+    }
+
+    function details(name, dob, idCard, salary, phone, email, address, position, degree, division) {
+        document.getElementById("name").innerText = name;
+        document.getElementById("dob").innerText = dob;
+        document.getElementById("idCard").innerText = idCard;
+        document.getElementById("salary").innerText = salary;
+        document.getElementById("phone").innerText = phone;
+        document.getElementById("email").innerText = email;
+        document.getElementById("address").innerText = address;
+        document.getElementById("position").innerText = position;
+        document.getElementById("degree").innerText = degree;
+        document.getElementById("division").innerText = division;
+    }
+
+    $(document).ready(function () {
+        $("#btnCreate").click(function () {
+            let employeeName = $("#employeeName").val();
+            let employeeBirthday = $("#employeeBirthday").val();
+            let employeeIdCard = $("#employeeIdCard").val();
+            let employeeSalary = $("#employeeSalary").val();
+            let employeePhone = $("#employeePhone").val();
+            let employeeEmail = $("#employeeEmail").val();
+            let employeeAddress = $("#employeeAddress").val();
+            let division = $("#employeeDivision").val();
+            let educationDegree = $("#employeeEducationDegree").val();
+            let position = $("#employeePosition").val();
+            let employee = {
+                'employeeName': employeeName,
+                'employeeBirthday': employeeBirthday,
+                'employeeIdCard': employeeIdCard,
+                'employeeSalary': employeeSalary,
+                'employeePhone': employeePhone,
+                'employeeEmail': employeeEmail,
+                'employeeAddress': employeeAddress,
+                'division': division,
+                'educationDegree': educationDegree,
+                'position': position
+            };
+            console.log(employee);
+            $.ajax({
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                url: "http://localhost:8080/restEmployee/save",
+                type: "POST",
+                data: JSON.stringify(employee),
+                success: function () {
+                    $("#createEmployee").modal('hide');
+                }
+            })
+        });
+
+
+    });
+
+    $(function () {
+        $("#employeeBirthday").datepicker({
+            dateFormat: 'dd/mm/yy',
+            changeYear: true,
+            changeMonth: true,
+            yearRange: "-80:-18",
+            minDate: "-80Y", maxDate: "-18Y"
+        });
+    });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+        crossorigin="anonymous"></script>
 </body>
 </html>
