@@ -1,25 +1,54 @@
 package com.casestudy.dto;
 
 import com.casestudy.model.contract.Contract;
+import com.casestudy.model.facility.Facility;
 import com.casestudy.model.facility.FacilityType;
 import com.casestudy.model.facility.RentType;
 
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.validation.GroupSequence;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import java.util.Set;
 
+interface First1 {
+}
+
+interface Second1 {
+}
+
+@GroupSequence(value = {FacilityDto.class, First1.class, Second1.class})
 public class FacilityDto {
     private int facilityId;
+
+    @NotBlank(groups = First1.class)
+    @Pattern(regexp = "^([\\p{Lu}][\\p{Ll}]{1,8})(\\s([\\p{Lu}]|[\\p{Lu}][\\p{Ll}]{1,10})){0,5}$",
+            message = "Invalid format (not include number, first character must lowercase)", groups = Second1.class)
     private String facilityName;
-    private int facilityArea;
-    private double facilityCost;
-    private int maxPeople;
+
+    @NotBlank(groups = First1.class)
+    @Pattern(regexp = "^[1-9]\\d*| *$", message = "Area must be greater than 0.", groups = Second1.class)
+    private String facilityArea;
+
+    @NotBlank(groups = First1.class)
+    @Pattern(regexp = "^[1-9]\\d*| *$", message = "Price must be greater than 0.", groups = Second1.class)
+    private String facilityCost;
+
+    @NotBlank(groups = First1.class)
+    @Pattern(regexp = "^[1-9]\\d*| *$", message = "People must be greater than 0.", groups = Second1.class)
+    private String maxPeople;
+
     private String standardRoom;
+
     private String descriptionOtherConvenience;
-    private double poolArea;
-    private int numberOfFloors;
+
+    @Pattern(regexp = "^[1-9]\\d*| *$", message = "People must be greater than 0.", groups = First1.class)
+    private String poolArea;
+
+    @Pattern(regexp = "^[1-9]\\d*| *$", message = "People must be greater than 0.", groups = First1.class)
+    private String numberOfFloors;
+
     private String facilityFree;
+
     private boolean isDelete;
     private Set<Contract> contracts;
     private FacilityType facilityType;
@@ -28,9 +57,10 @@ public class FacilityDto {
     public FacilityDto() {
     }
 
-    public FacilityDto(int facilityId, String facilityName, int facilityArea, double facilityCost, int maxPeople, String standardRoom,
-                       String descriptionOtherConvenience, double poolArea, int numberOfFloors, String facilityFree, boolean isDelete,
-                       Set<Contract> contracts, FacilityType facilityType, RentType rentType) {
+    public FacilityDto(int facilityId, String facilityName, String facilityArea, String facilityCost, String maxPeople,
+                       String standardRoom, String descriptionOtherConvenience, String poolArea, String numberOfFloors,
+                       String facilityFree, boolean isDelete, Set<Contract> contracts, FacilityType facilityType,
+                       RentType rentType) {
         this.facilityId = facilityId;
         this.facilityName = facilityName;
         this.facilityArea = facilityArea;
@@ -63,27 +93,27 @@ public class FacilityDto {
         this.facilityName = facilityName;
     }
 
-    public int getFacilityArea() {
+    public String getFacilityArea() {
         return facilityArea;
     }
 
-    public void setFacilityArea(int facilityArea) {
+    public void setFacilityArea(String facilityArea) {
         this.facilityArea = facilityArea;
     }
 
-    public double getFacilityCost() {
+    public String getFacilityCost() {
         return facilityCost;
     }
 
-    public void setFacilityCost(double facilityCost) {
+    public void setFacilityCost(String facilityCost) {
         this.facilityCost = facilityCost;
     }
 
-    public int getMaxPeople() {
+    public String getMaxPeople() {
         return maxPeople;
     }
 
-    public void setMaxPeople(int maxPeople) {
+    public void setMaxPeople(String maxPeople) {
         this.maxPeople = maxPeople;
     }
 
@@ -103,19 +133,19 @@ public class FacilityDto {
         this.descriptionOtherConvenience = descriptionOtherConvenience;
     }
 
-    public double getPoolArea() {
+    public String getPoolArea() {
         return poolArea;
     }
 
-    public void setPoolArea(double poolArea) {
+    public void setPoolArea(String poolArea) {
         this.poolArea = poolArea;
     }
 
-    public int getNumberOfFloors() {
+    public String getNumberOfFloors() {
         return numberOfFloors;
     }
 
-    public void setNumberOfFloors(int numberOfFloors) {
+    public void setNumberOfFloors(String numberOfFloors) {
         this.numberOfFloors = numberOfFloors;
     }
 

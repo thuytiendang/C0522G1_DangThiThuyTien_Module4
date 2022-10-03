@@ -9,6 +9,20 @@
             integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
             crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
+    <style>
+        table {
+            border: solid 3px;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
 <div th:replace="~{/home::header}"></div>
@@ -36,36 +50,37 @@
         <tr class="text-center bg-info">
             <th>Serial</th>
             <th>Name</th>
-            <th>Area</th>
+<!--            <th>Area</th>-->
             <th>Cost</th>
             <th>Max people</th>
             <th>Standard room</th>
-            <th>Other convenience</th>
-            <th>Pool area</th>
+<!--            <th>Other convenience</th>-->
+<!--            <th>Pool area</th>-->
             <th>Floor</th>
-            <th>Facility free</th>
+<!--            <th>Facility free</th>-->
             <th>Type of rent</th>
             <th>Type of facility</th>
             <th>Update</th>
             <th>Delete</th>
+            <th>View</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="facility, status : ${facilityList}">
             <td th:text="${facilityList.number * 5 + status.count}"></td>
             <td th:text="${facility.facilityName}"></td>
-            <td th:text="${facility.facilityArea}"></td>
+<!--            <td th:text="${facility.facilityArea}"></td>-->
             <td th:text="${facility.facilityCost}"></td>
             <td th:text="${facility.maxPeople}"></td>
             <td th:text="${facility.standardRoom}"></td>
-            <td th:text="${facility.descriptionOtherConvenience}"></td>
-            <td th:text="${facility.poolArea}"></td>
+<!--            <td th:text="${facility.descriptionOtherConvenience}"></td>-->
+<!--            <td th:text="${facility.poolArea}"></td>-->
             <td th:text="${facility.numberOfFloors}"></td>
-            <td th:text="${facility.facilityFree}"></td>
+<!--            <td th:text="${facility.facilityFree}"></td>-->
             <td th:text="${facility.rentType.rentTypeName}"></td>
             <td th:text="${facility.facilityType.facilityTypeName}"></td>
             <td class="text-center">
-                <a th:href="@{/customer/edit/__${facility.facilityId}__}">
+                <a th:href="@{/facility/edit/__${facility.facilityId}__}">
                     <span class="text-warning"><i class="fa-solid fa-pen-to-square"></i></span>
                 </a>
             </td>
@@ -78,7 +93,7 @@
             <td class="text-center">
                 <a th:attr="onclick=|details('${facility.facilityName}', '${facility.facilityArea}',
                 '${facility.facilityCost}', '${facility.maxPeople}', '${facility.standardRoom}',
-                '${facility.descriptionOtherConvenience}', '${facility.poolArea}',  '${facility.numberOfFloors}', '${facility.facilityFree}',
+                '${facility.descriptionOtherConvenience}', '${facility.poolArea}', '${facility.numberOfFloors}', '${facility.facilityFree}',
                 '${facility.rentType.rentTypeName}', '${facility.facilityType.facilityTypeName}')|"
                    data-bs-toggle="modal" data-bs-target="#viewFacility">
                     <span class="text-success"><i class="fa-solid fa-eye"></i></span>
@@ -198,13 +213,13 @@
 
     function details(name, area, cost, maxPeople, standardRoom, OtherConvenience, poolArea, floor, facilityFree, rentType, facilityType ) {
         document.getElementById("name").innerText = name;
-        document.getElementById("area").value = area;
-        document.getElementById("cost").value = cost;
-        document.getElementById("maxPeople").value = maxPeople;
+        document.getElementById("area").innerText = area;
+        document.getElementById("cost").innerText = cost;
+        document.getElementById("maxPeople").innerText = maxPeople;
         document.getElementById("standardRoom").innerText = standardRoom;
         document.getElementById("OtherConvenience").innerText = OtherConvenience;
-        document.getElementById("poolArea").value = poolArea;
-        document.getElementById("floor").value = floor;
+        document.getElementById("poolArea").innerText = poolArea;
+        document.getElementById("floor").innerText = floor;
         document.getElementById("facilityFree").innerText = facilityFree;
         document.getElementById("rentType").innerText = rentType;
         document.getElementById("facilityType").innerText = facilityType;

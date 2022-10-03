@@ -6,10 +6,185 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
+    <style>
+        body {
+            background-color: #d0ccd0;
+        }
+        a {
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+
+        }
+    </style>
 </head>
 <body>
 <div th:replace="~{/home::header}"></div>
+<div class="mx-5 px-5 pt-3">
+    <h2 class="text-center fw-bold">Add new Facility</h2>
 
+    <p class="text-center mt-3"><a href="/"><i class="fa-solid fa-house-chimney h5 mx-1"></i> Back to HOME</a></p>
+
+    <p class="text-center">
+        <a href="/facility/list"><i class="fa-solid fa-backward"></i> Back to Facility list</a>
+    </p>
+
+    <div class="d-flex justify-content-center">
+        <form class="w-50 border border-2 border-success p-3 bg-info bg-opacity-50 rounded" th:action="@{/facility/add}"
+              method="post" th:object="${facilityDto}">
+            <div class="mt-3 form-group">
+                <label class="h6" for="facilityType">Facility Type:</label>
+                <div class="input-group">
+                    <select id="facilityType" class="form-control" name="facilityTypeId" th:field="*{facilityType}" onchange="changeForm(this)">
+                        <option th:each="items : ${facilityTypes}" th:value="${items.facilityTypeId}"
+                                th:text="${items.facilityTypeName}"></option>
+                    </select>
+                    <span class="input-group-text"><i class="fa-solid fa-ranking-star"></i></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="facilityName" class="h6">Facility name:</label>
+                <div class="input-group">
+                    <input type="text" id="facilityName" class="form-control" th:field="*{facilityName}" placeholder="Input Facility name"
+                           name="facilityName">
+                    <span class="input-group-text"><i class="fa-solid fa-file-signature"></i></span>
+                </div>
+            </div>
+            <div class="form-group text-danger">
+                <p th:if="${#fields.hasErrors('facilityName')}" th:errors="*{facilityName}">Name Error</p>
+            </div>
+
+            <div class="mt-3 form-group">
+                <label for="area" class="h6">Area (m<sup>2</sup>):</label>
+                <div class="input-group">
+                    <input type="number" id="area" class="form-control" th:field="*{facilityArea}" placeholder="Input Facility area" name="facilityArea">
+                    <span class="input-group-text"><i class="fa-solid fa-chart-area"></i></span>
+                </div>
+            </div>
+            <div class="form-group text-danger">
+                <p th:if="${#fields.hasErrors('facilityArea')}" th:errors="*{facilityArea}">Name Error</p>
+            </div>
+
+            <div class="mt-3 form-group">
+                <label for="cost" class="h6">Cost:</label>
+                <div class="input-group">
+                    <input type="text" id="cost" class="form-control" th:field="*{facilityCost}" placeholder="Input Cost" name="facilityCost">
+                    <span class="input-group-text"><i class="fa-solid fa-dollar-sign"></i></span>
+                </div>
+            </div>
+            <div class="form-group text-danger">
+                <p th:if="${#fields.hasErrors('facilityCost')}" th:errors="*{facilityCost}">Name Error</p>
+            </div>
+
+            <div class="mt-3 form-group">
+                <label for="maxPeople" class="h6">Maximum number of people:</label>
+                <div class="input-group">
+                    <input type="number" id="maxPeople" class="form-control" th:field="*{maxPeople}"
+                           placeholder="Input maximum number of people" name="maxPeople">
+                    <span class="input-group-text"><i class="fa-solid fa-person"></i></span>
+                </div>
+            </div>
+            <div class="form-group text-danger">
+                <p th:if="${#fields.hasErrors('maxPeople')}" th:errors="*{maxPeople}">Name Error</p>
+            </div>
+
+            <div class="mt-3 form-group" id="standardRoomForm">
+                <label for="standardRoom" class="h6">Standard room:</label>
+                <div class="input-group">
+                    <input type="text" id="standardRoom" class="form-control" th:field="*{standardRoom}" name="standardRoom"
+                           value=" -" placeholder="input standard room">
+                    <span class="input-group-text"><i class="fa-solid fa-star"></i></span>
+                </div>
+            </div>
+
+            <div class="mt-3 form-group" id="descriptionForm">
+                <label for="description" class="h6">Description other convenience:</label>
+                <div class="input-group">
+                    <input type="text" id="description" class="form-control" th:field="*{descriptionOtherConvenience}"
+                           name="otherConvenience" value=" -" placeholder="input other convenience">
+                    <span class="input-group-text"><i class="fa-solid fa-book"></i></span>
+                </div>
+            </div>
+
+            <div class="mt-3 form-group" id="poolAreaForm">
+                <label for="poolArea" class="h6">Pool area (m<sup>2</sup>):</label>
+                <div class="input-group">
+                    <input type="text" id="poolArea" class="form-control" th:field="*{poolArea}" name="poolArea" value="0"
+                           placeholder="input pool area">
+                    <span class="input-group-text"><i class="fa-solid fa-person-swimming"></i></span>
+                </div>
+            </div>
+
+            <div class="mt-3 form-group" id="numberOfFloorsForm">
+                <label for="numberOfFloors" class="h6">Number of floors:</label>
+                <div class="input-group">
+                    <input type="number" id="numberOfFloors" class="form-control" th:field="*{numberOfFloors}" name="numberOfFloor"
+                           value="0" placeholder="input number of floor">
+                    <span class="input-group-text"><i class="fa-solid fa-building"></i></span>
+                </div>
+            </div>
+            <div class="form-group text-danger">
+                <p th:if="${#fields.hasErrors('numberOfFloors')}" th:errors="*{numberOfFloors}">Name Error</p>
+            </div>
+
+            <div class="mt-3 form-group" id="facilityFreeForm" style="display: none">
+                <label for="facilityFree" class="h6">Facility free:</label>
+                <div class="input-group">
+                    <input type="text" id="facilityFree" class="form-control" th:field="*{facilityFree}" name="facilityFree" value=" -"
+                    placeholder="input facility free">
+                    <span class="input-group-text"><i class="fa-solid fa-gift"></i></span>
+                </div>
+            </div>
+
+            <div class="mt-3 form-group">
+                <label class="h6" for="rentType">Rent Type:</label>
+                <div class="input-group">
+                    <select id="rentType" class="form-control" name="rentTypeId" th:field="*{rentType}">
+                        <option th:each="item : ${rentTypes}" th:value="${item.rentTypeId}"
+                                th:text="${item.rentTypeName}"></option>
+                    </select>
+                    <span class="input-group-text"><i class="fa-solid fa-ranking-star"></i></span>
+                </div>
+            </div>
+
+            <div class="mt-3 text-center">
+                <button class="btn btn-info btn-outline-success btn-sm border border-2 border-success text-dark">
+                    -- Save <i class="fa-solid fa-floppy-disk"></i> --
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function changeForm(type) {
+        let selectType = type.value;
+        switch (selectType) {
+            case "1":
+                document.getElementById("standardRoomForm").style.display = "block";
+                document.getElementById("descriptionForm").style.display = "block";
+                document.getElementById("poolAreaForm").style.display = "block";
+                document.getElementById("numberOfFloorsForm").style.display = "block";
+                document.getElementById("facilityFreeForm").style.display = "none";
+                break;
+            case "2":
+                document.getElementById("standardRoomForm").style.display = "block";
+                document.getElementById("descriptionForm").style.display = "block";
+                document.getElementById("poolAreaForm").style.display = "none";
+                document.getElementById("numberOfFloorsForm").style.display = "block";
+                document.getElementById("facilityFreeForm").style.display = "none";
+                break;
+            default:
+                document.getElementById("standardRoomForm").style.display = "none";
+                document.getElementById("descriptionForm").style.display = "none";
+                document.getElementById("poolAreaForm").style.display = "none";
+                document.getElementById("numberOfFloorsForm").style.display = "none";
+                document.getElementById("facilityFreeForm").style.display = "block";
+        }
+    }
+</script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"

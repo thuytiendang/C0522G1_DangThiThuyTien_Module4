@@ -19,7 +19,8 @@ public class CustomerDto {
     private int customerId;
 
     @NotBlank(groups = First.class)
-    @Pattern(regexp = "^([\\p{Lu}][\\p{Ll}]{1,8})(\\s([\\p{Lu}]|[\\p{Lu}][\\p{Ll}]{1,10})){0,5}$", message = "Invalid format (ex: Đặng Thị Thủy Tiên)", groups = Second.class)
+    @Pattern(regexp = "^([\\p{Lu}][\\p{Ll}]{1,8})(\\s([\\p{Lu}]|[\\p{Lu}][\\p{Ll}]{1,10})){0,5}$",
+            message = "Invalid format (ex: Đặng Thị Thủy Tiên)", groups = Second.class)
     private String customerName;
 
     @NotBlank(groups = First.class)
