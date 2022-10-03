@@ -1,4 +1,7 @@
 package com.casestudy.repository.contract;
 
-public interface IContractRepository {
+import com.casestudy.model.contract.Contract;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface IContractRepository extends JpaRepository<Contract, Integer> {
 }
