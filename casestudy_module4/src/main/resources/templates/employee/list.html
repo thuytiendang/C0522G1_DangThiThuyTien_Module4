@@ -85,9 +85,10 @@
             <td th:text="${employee.educationDegree.educationDegreeName}"></td>
             <td th:text="${employee.division.divisionName}"></td>
             <td class="text-center">
-                <a th:href="@{/employee/edit/__${employee.employeeId}__}">
+                <button type="button" class="btn btn-success btn-sm my-2" data-bs-toggle="modal"
+                        data-bs-target="#updateEmployee" th:attr="onclick=|showUpdateModal('${employee.employeeId}')|">
                     <span class="text-warning"><i class="fa-solid fa-pen-to-square"></i></span>
-                </a>
+                </button>
             </td>
             <td class="text-center">
                 <a data-bs-toggle="modal" data-bs-target="#deleteEmployee"
@@ -203,7 +204,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label for="employeeName" class="form-label">Employee name:</label>
+                        <label for="employeeName" class="form-label text-success">Employee name:</label>
                         <input type="text" class="form-control" id="employeeName" placeholder="Input employee name">
                     </div>
                     <div class="mb-3">
@@ -262,6 +263,81 @@
         </div>
     </div>
 
+
+    <!-- Modal update -->
+    <div class="modal fade" id="updateEmployee" tabindex="-1" aria-labelledby="exampleModalLabel3" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel3">Create Employee</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div>
+                    <input type="hidden" id="idUpdate">
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="employeeNameU" class="form-label">Employee name:</label>
+                        <input type="text" class="form-control" id="employeeNameU" placeholder="Input employee name">
+                    </div>
+                    <div class="mb-3">
+                        <label for="employeeBirthdayU" class="form-label">Employee birthday:</label>
+                        <input type="text" class="form-control" id="employeeBirthdayU"
+                               placeholder="Input employee birthday">
+                    </div>
+                    <div class="mb-3">
+                        <label for="employeeIdCardU" class="form-label">Employee IdCard:</label>
+                        <input type="text" class="form-control" id="employeeIdCardU"
+                               placeholder="Input employee IdCard">
+                    </div>
+                    <div class="mb-3">
+                        <label for="employeeSalaryU" class="form-label">Employee salary:</label>
+                        <input type="text" class="form-control" id="employeeSalaryU"
+                               placeholder="Input employee salary">
+                    </div>
+                    <div class="mb-3">
+                        <label for="employeePhoneU" class="form-label">Employee phone:</label>
+                        <input type="text" class="form-control" id="employeePhoneU" placeholder="Input employee phone">
+                    </div>
+                    <div class="mb-3">
+                        <label for="employeeEmailU" class="form-label">Employee email:</label>
+                        <input type="text" class="form-control" id="employeeEmailU" placeholder="Input employee email">
+                    </div>
+                    <div class="mb-3">
+                        <label for="employeeAddressU" class="form-label">Employee address:</label>
+                        <input type="text" class="form-control" id="employeeAddressU"
+                               placeholder="Input employee address">
+                    </div>
+                    <div class="mb-3">
+                        <label for="employeeDivisionU" class="form-label">Division:</label>
+                        <select id="employeeDivisionU" class="form-control" name="division">
+                            <option th:each="item : ${divisions}" th:value="${item.divisionId}"
+                                    th:text="${item.divisionName}"></option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="employeeEducationDegreeU" class="form-label">Education degree:</label>
+                        <select id="employeeEducationDegreeU" class="form-control" name="educationDegree">
+                            <option th:each="item : ${educationDegrees}" th:value="${item.educationDegreeId}"
+                                    th:text="${item.educationDegreeName}"></option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="employeePositionU" class="form-label">Position:</label>
+                        <select id="employeePositionU" class="form-control" name="position">
+                            <option th:each="item : ${positions}" th:value="${item.positionId}"
+                                    th:text="${item.positionName}"></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="btnUpdate">Create</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <a href="/"><i class="fa-solid fa-house-chimney h5 mx-1"></i> Back to HOME</a>
 
     <div>
@@ -315,11 +391,10 @@
                 'employeePhone': employeePhone,
                 'employeeEmail': employeeEmail,
                 'employeeAddress': employeeAddress,
-                'division': division,
-                'educationDegree': educationDegree,
-                'position': position
+                'division': {'divisionId': division},
+                'educationDegree': {'educationDegreeId': educationDegree},
+                'position': {'positionId': position}
             };
-            console.log(employee);
             $.ajax({
                 headers: {
                     'Accept': 'application/json',
@@ -330,12 +405,80 @@
                 data: JSON.stringify(employee),
                 success: function () {
                     $("#createEmployee").modal('hide');
+                    alert("Create successfully!");
+                    re();
                 }
             })
+
+
+            $("#btnUpdate").click(function () {
+                let id = $("#idUpdate").val();
+                let employeeName = $("#employeeNameU").val();
+                let employeeBirthday = $("#employeeBirthdayU").val();
+                let employeeIdCard = $("#employeeIdCardU").val();
+                let employeeSalary = $("#employeeSalaryU").val();
+                let employeePhone = $("#employeePhoneU").val();
+                let employeeEmail = $("#employeeEmailU").val();
+                let employeeAddress = $("#employeeAddressU").val();
+                let division = $("#employeeDivisionU").val();
+                let educationDegree = $("#employeeEducationDegreeU").val();
+                let position = $("#employeePositionU").val();
+                let employee = {
+                    'employeeId' : id,
+                    'employeeName': employeeName,
+                    'employeeBirthday': employeeBirthday,
+                    'employeeIdCard': employeeIdCard,
+                    'employeeSalary': employeeSalary,
+                    'employeePhone': employeePhone,
+                    'employeeEmail': employeeEmail,
+                    'employeeAddress': employeeAddress,
+                    'division': {'divisionId': division},
+                    'educationDegree': {'educationDegreeId': educationDegree},
+                    'position': {'positionId': position}
+                };
+                $.ajax({
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    url: "http://localhost:8080/restEmployee",
+                    type: "PUT",
+                    data: JSON.stringify(employee),
+                    success: function () {
+                        $("#updateEmployee").modal('hide');
+                        alert("Update successfully!");
+                        re();
+                    }
+                });
+            });
         });
-
-
     });
+
+    function showUpdateModal(id) {
+        $.ajax({
+            url: "http://localhost:8080/restEmployee/" + id,
+            type: "GET",
+            dataType: "json",
+            success: function (data) {
+                document.getElementById("employeeNameU").value = data.employeeName;
+                document.getElementById("employeeBirthdayU").value = data.employeeBirthday;
+                document.getElementById("employeeIdCardU").value = data.employeeIdCard;
+                document.getElementById("employeeSalaryU").value = data.employeeSalary;
+                document.getElementById("employeePhoneU").value = data.employeePhone;
+                document.getElementById("employeeEmailU").value = data.employeeEmail;
+                document.getElementById("employeeAddressU").value = data.employeeAddress;
+                document.getElementById("employeeDivisionU").value = data.division.divisionId;
+                document.getElementById("employeeEducationDegreeU").value = data.educationDegree.educationDegreeId;
+                document.getElementById("employeePositionU").value = data.position.positionId;
+                document.getElementById("idUpdate").value = id;
+                console.log(data);
+            }
+        })
+    }
+
+    function re(){
+        location.reload()
+    }
 
     $(function () {
         $("#employeeBirthday").datepicker({
