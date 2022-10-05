@@ -33,7 +33,7 @@ public class EmployeeRestController {
     }
 
     @PutMapping
-    public ResponseEntity<Employee> update(@RequestBody Employee employee){
+    public ResponseEntity<?> update(@RequestBody Employee employee){
         iEmployeeService.updateEmployee(employee);
         return new ResponseEntity<>(HttpStatus.OK);
     }

@@ -1,5 +1,7 @@
 package com.casestudy.model.employee;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Set;
 
@@ -11,6 +13,7 @@ public class EducationDegree {
     private int educationDegreeId;
     private String educationDegreeName;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "educationDegree")
     private Set<Employee> employees;
 

@@ -4,9 +4,11 @@ import com.casestudy.model.facility.Facility;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+
 public interface IFacilityService {
 
-    Page<Facility> showListFacility(Pageable pageable);
+    List<Facility> showListFacility();
 
     void addNewFacility(Facility facility);
 

@@ -29,40 +29,45 @@
 <div th:replace="~{/home::header}"></div>
 <div class="p-3">
 
-    <h2 class="text-center fw-bold text-info">EMPLOYEE LIST</h2>
-    <!--    <a th:href="@{/employee/create}">-->
-    <!--        <button class="btn btn-success btn-sm my-2">-->
-    <!--            <span class="fa-solid fa-person-circle-plus text-light h5 my-auto me-1"></span> Add new Employee-->
-    <!--        </button>-->
-    <!--    </a>-->
+    <h2 class="text-center fw-bold text-success">EMPLOYEE LIST</h2>
 
-    <button type="button" class="btn btn-success btn-sm my-2" data-bs-toggle="modal" data-bs-target="#createEmployee">
-        <span class="fa-solid fa-person-circle-plus text-light h5 my-auto me-1"></span> Add new Employee
-    </button>
-
-    <form th:action="@{/employee/list}" class="my-3">
-        <input type="text" name="employeeName" placeholder="input name">
-        <input type="text" name="employeeAddress" placeholder="input address">
-        <input type="text" name="employeePhone" placeholder="input phone">
-        <button class="btn btn-outline-success" type="submit">
-            <i class="fa-solid fa-magnifying-glass"></i></button>
-    </form>
     <div class="notify" style="text-align: center; color: red">
         <div th:if="${mess}">
             <span th:text="${mess}"></span>
         </div>
     </div>
+
+    <nav class="navbar navbar-expand-lg pb-0 mb-0">
+        <div class="container-fluid">
+            <button class="btn btn-primary btn-outline-secondary btn-sm" data-bs-toggle="modal"
+                    data-bs-target="#createEmployee">
+                <span class="fa-solid fa-person-circle-plus text-light h5 my-auto me-1"></span>
+                <span class="text-light"> Add new Employee</span>
+            </button>
+
+            <form class="d-flex my-2" role="search" th:action="@{/employee/list}">
+                <input class="form-control me-2" type="text" placeholder="input name" aria-label="Search"
+                       name="employeeName" th:value="${employeeName}">
+
+                <input class="form-control me-2" type="text" placeholder="input address" aria-label="Search"
+                       name="employeeAddress" th:value="${employeeAddress}">
+
+                <input class="form-control me-2" type="text" placeholder="input phone" aria-label="Search"
+                       name="employeePhone" th:value="${employeePhone}">
+
+                <button class="btn btn-outline-success" type="submit" name="action" value="search">
+                    <i class="fa-solid fa-magnifying-glass"></i></button>
+            </form>
+        </div>
+    </nav>
+
     <table class="table table-striped table-bordered" id="employeeTable">
         <thead>
-        <tr class="text-center bg-info">
+        <tr class="text-center bg-success">
             <th>Serial</th>
             <th>Name</th>
-            <!--            <th>Date of Birth</th>-->
             <th>Id card</th>
-            <!--            <th>Salary</th>-->
             <th>Phone number</th>
-            <!--            <th>Email</th>-->
-            <!--            <th>Address</th>-->
             <th>Position</th>
             <th>Degree</th>
             <th>Division</th>
@@ -75,12 +80,8 @@
         <tr th:each="employee, status : ${employeeList}">
             <td th:text="${employeeList.number * 5 + status.count}"></td>
             <td th:text="${employee.employeeName}"></td>
-            <!--            <td th:text="${employee.employeeBirthday}"></td>-->
             <td th:text="${employee.employeeIdCard}"></td>
-            <!--            <td th:text="${employee.employeeSalary}"></td>-->
             <td th:text="${employee.employeePhone}"></td>
-            <!--            <td th:text="${employee.employeeEmail}"></td>-->
-            <!--            <td th:text="${employee.employeeAddress}"></td>-->
             <td th:text="${employee.position.positionName}"></td>
             <td th:text="${employee.educationDegree.educationDegreeName}"></td>
             <td th:text="${employee.division.divisionName}"></td>
@@ -140,7 +141,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" id="exampleModalLabel2">Employee information</h4>
+                    <h4 class="modal-title text-success" id="exampleModalLabel2">Employee information</h4>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -199,7 +200,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Create Employee</h1>
+                    <h1 class="modal-title fs-5 text-success" id="exampleModalLabel">CREATE EMPLOYEE</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -208,48 +209,48 @@
                         <input type="text" class="form-control" id="employeeName" placeholder="Input employee name">
                     </div>
                     <div class="mb-3">
-                        <label for="employeeBirthday" class="form-label">Employee birthday:</label>
+                        <label for="employeeBirthday" class="form-label text-success">Employee birthday:</label>
                         <input type="text" class="form-control" id="employeeBirthday"
                                placeholder="Input employee birthday">
                     </div>
                     <div class="mb-3">
-                        <label for="employeeIdCard" class="form-label">Employee IdCard:</label>
+                        <label for="employeeIdCard" class="form-label text-success">Employee IdCard:</label>
                         <input type="text" class="form-control" id="employeeIdCard" placeholder="Input employee IdCard">
                     </div>
                     <div class="mb-3">
-                        <label for="employeeSalary" class="form-label">Employee salary:</label>
+                        <label for="employeeSalary" class="form-label text-success">Employee salary:</label>
                         <input type="text" class="form-control" id="employeeSalary" placeholder="Input employee salary">
                     </div>
                     <div class="mb-3">
-                        <label for="employeePhone" class="form-label">Employee phone:</label>
+                        <label for="employeePhone" class="form-label text-success">Employee phone:</label>
                         <input type="text" class="form-control" id="employeePhone" placeholder="Input employee phone">
                     </div>
                     <div class="mb-3">
-                        <label for="employeeEmail" class="form-label">Employee email:</label>
+                        <label for="employeeEmail" class="form-label text-success">Employee email:</label>
                         <input type="text" class="form-control" id="employeeEmail" placeholder="Input employee email">
                     </div>
                     <div class="mb-3">
-                        <label for="employeeAddress" class="form-label">Employee address:</label>
+                        <label for="employeeAddress" class="form-label text-success">Employee address:</label>
                         <input type="text" class="form-control" id="employeeAddress"
                                placeholder="Input employee address">
                     </div>
                     <div class="mb-3">
-                        <label for="employeeDivision" class="form-label">Division:</label>
-                        <select id="employeeDivision" class="form-control" name="division">
+                        <label for="employeeDivision" class="form-label text-success">Division:</label>
+                        <select id="employeeDivision" class="form-select" name="division">
                             <option th:each="item : ${divisions}" th:value="${item.divisionId}"
                                     th:text="${item.divisionName}"></option>
                         </select>
                     </div>
                     <div class="mb-3">
-                        <label for="employeeEducationDegree" class="form-label">Education degree:</label>
-                        <select id="employeeEducationDegree" class="form-control" name="educationDegree">
+                        <label for="employeeEducationDegree" class="form-label text-success">Education degree:</label>
+                        <select id="employeeEducationDegree" class="form-select" name="educationDegree">
                             <option th:each="item : ${educationDegrees}" th:value="${item.educationDegreeId}"
                                     th:text="${item.educationDegreeName}"></option>
                         </select>
                     </div>
                     <div class="mb-3">
-                        <label for="employeePosition" class="form-label">Position:</label>
-                        <select id="employeePosition" class="form-control" name="position">
+                        <label for="employeePosition" class="form-label text-success">Position:</label>
+                        <select id="employeePosition" class="form-select" name="position">
                             <option th:each="item : ${positions}" th:value="${item.positionId}"
                                     th:text="${item.positionName}"></option>
                         </select>
@@ -269,7 +270,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel3">Create Employee</h1>
+                    <h1 class="modal-title fs-5 text-success" id="exampleModalLabel3">UPDATE EMPLOYEE</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div>
@@ -277,54 +278,54 @@
                 </div>
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label for="employeeNameU" class="form-label">Employee name:</label>
+                        <label for="employeeNameU" class="form-label text-success">Employee name:</label>
                         <input type="text" class="form-control" id="employeeNameU" placeholder="Input employee name">
                     </div>
                     <div class="mb-3">
-                        <label for="employeeBirthdayU" class="form-label">Employee birthday:</label>
+                        <label for="employeeBirthdayU" class="form-label text-success">Employee birthday:</label>
                         <input type="text" class="form-control" id="employeeBirthdayU"
                                placeholder="Input employee birthday">
                     </div>
                     <div class="mb-3">
-                        <label for="employeeIdCardU" class="form-label">Employee IdCard:</label>
+                        <label for="employeeIdCardU" class="form-label text-success">Employee IdCard:</label>
                         <input type="text" class="form-control" id="employeeIdCardU"
                                placeholder="Input employee IdCard">
                     </div>
                     <div class="mb-3">
-                        <label for="employeeSalaryU" class="form-label">Employee salary:</label>
+                        <label for="employeeSalaryU" class="form-label text-success">Employee salary:</label>
                         <input type="text" class="form-control" id="employeeSalaryU"
                                placeholder="Input employee salary">
                     </div>
                     <div class="mb-3">
-                        <label for="employeePhoneU" class="form-label">Employee phone:</label>
+                        <label for="employeePhoneU" class="form-label text-success">Employee phone:</label>
                         <input type="text" class="form-control" id="employeePhoneU" placeholder="Input employee phone">
                     </div>
                     <div class="mb-3">
-                        <label for="employeeEmailU" class="form-label">Employee email:</label>
+                        <label for="employeeEmailU" class="form-label text-success">Employee email:</label>
                         <input type="text" class="form-control" id="employeeEmailU" placeholder="Input employee email">
                     </div>
                     <div class="mb-3">
-                        <label for="employeeAddressU" class="form-label">Employee address:</label>
+                        <label for="employeeAddressU" class="form-label text-success">Employee address:</label>
                         <input type="text" class="form-control" id="employeeAddressU"
                                placeholder="Input employee address">
                     </div>
                     <div class="mb-3">
-                        <label for="employeeDivisionU" class="form-label">Division:</label>
-                        <select id="employeeDivisionU" class="form-control" name="division">
+                        <label for="employeeDivisionU" class="form-label text-success">Division:</label>
+                        <select id="employeeDivisionU" class="form-select" name="division">
                             <option th:each="item : ${divisions}" th:value="${item.divisionId}"
                                     th:text="${item.divisionName}"></option>
                         </select>
                     </div>
                     <div class="mb-3">
-                        <label for="employeeEducationDegreeU" class="form-label">Education degree:</label>
-                        <select id="employeeEducationDegreeU" class="form-control" name="educationDegree">
+                        <label for="employeeEducationDegreeU" class="form-label text-success">Education degree:</label>
+                        <select id="employeeEducationDegreeU" class="form-select" name="educationDegree">
                             <option th:each="item : ${educationDegrees}" th:value="${item.educationDegreeId}"
                                     th:text="${item.educationDegreeName}"></option>
                         </select>
                     </div>
                     <div class="mb-3">
-                        <label for="employeePositionU" class="form-label">Position:</label>
-                        <select id="employeePositionU" class="form-control" name="position">
+                        <label for="employeePositionU" class="form-label text-success">Position:</label>
+                        <select id="employeePositionU" class="form-select" name="position">
                             <option th:each="item : ${positions}" th:value="${item.positionId}"
                                     th:text="${item.positionName}"></option>
                         </select>
@@ -338,18 +339,26 @@
         </div>
     </div>
 
-    <a href="/"><i class="fa-solid fa-house-chimney h5 mx-1"></i> Back to HOME</a>
-
-    <div>
-        <a th:href="@{'/employee/list'(page=${employeeList.number - 1},
-    employeeName=${employeeName}, employeeAddress=${employeeAddress}, employeePhone=${employeePhone})}"
-           th:if="${employeeList.hasPrevious()}">Previous</a>
-        <span th:text="${employeeList.number + 1}"></span>
-        <span th:text="${employeeList.totalPages}"></span>
-        <a th:href="@{'/employee/list'(page=${employeeList.number + 1}, employeeName=${employeeName}, employeeAddress=${employeeAddress}, employeePhone=${employeePhone})}"
-           th:if="${employeeList.hasNext()}">Next</a>
-    </div>
-
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            <li class="page-item">
+                <a class="page-link" th:href="@{'/employee/list'(page=${employeeList.number - 1},
+                employeeName=${employeeName}, employeeAddress=${employeeAddress}, employeePhone=${employeePhone})}"
+                   th:if="${employeeList.hasPrevious()}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo; Previous</span>
+                </a>
+            </li>
+            <li class="page-item"><a class="page-link" th:text="${employeeList.number + 1}"></a></li>
+            <li class="page-item"><a class="page-link" th:text="${employeeList.totalPages}"></a></li>
+            <li class="page-item">
+                <a class="page-link" th:href="@{'/employee/list'(page=${employeeList.number + 1}, employeeName=${employeeName},
+                 employeeAddress=${employeeAddress}, employeePhone=${employeePhone})}"
+                   th:if="${employeeList.hasNext()}" aria-label="Next">
+                    <span aria-hidden="true">Next &raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
 </div>
 
 <script>
@@ -409,48 +418,48 @@
                     re();
                 }
             })
+        });
+    });
 
 
-            $("#btnUpdate").click(function () {
-                let id = $("#idUpdate").val();
-                let employeeName = $("#employeeNameU").val();
-                let employeeBirthday = $("#employeeBirthdayU").val();
-                let employeeIdCard = $("#employeeIdCardU").val();
-                let employeeSalary = $("#employeeSalaryU").val();
-                let employeePhone = $("#employeePhoneU").val();
-                let employeeEmail = $("#employeeEmailU").val();
-                let employeeAddress = $("#employeeAddressU").val();
-                let division = $("#employeeDivisionU").val();
-                let educationDegree = $("#employeeEducationDegreeU").val();
-                let position = $("#employeePositionU").val();
-                let employee = {
-                    'employeeId' : id,
-                    'employeeName': employeeName,
-                    'employeeBirthday': employeeBirthday,
-                    'employeeIdCard': employeeIdCard,
-                    'employeeSalary': employeeSalary,
-                    'employeePhone': employeePhone,
-                    'employeeEmail': employeeEmail,
-                    'employeeAddress': employeeAddress,
-                    'division': {'divisionId': division},
-                    'educationDegree': {'educationDegreeId': educationDegree},
-                    'position': {'positionId': position}
-                };
-                $.ajax({
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    },
-                    url: "http://localhost:8080/restEmployee",
-                    type: "PUT",
-                    data: JSON.stringify(employee),
-                    success: function () {
-                        $("#updateEmployee").modal('hide');
-                        alert("Update successfully!");
-                        re();
-                    }
-                });
-            });
+    $("#btnUpdate").click(function () {
+        let id = $("#idUpdate").val();
+        let employeeName = $("#employeeNameU").val();
+        let employeeBirthday = $("#employeeBirthdayU").val();
+        let employeeIdCard = $("#employeeIdCardU").val();
+        let employeeSalary = $("#employeeSalaryU").val();
+        let employeePhone = $("#employeePhoneU").val();
+        let employeeEmail = $("#employeeEmailU").val();
+        let employeeAddress = $("#employeeAddressU").val();
+        let division = $("#employeeDivisionU").val();
+        let educationDegree = $("#employeeEducationDegreeU").val();
+        let position = $("#employeePositionU").val();
+        let employee = {
+            'employeeId': id,
+            'employeeName': employeeName,
+            'employeeBirthday': employeeBirthday,
+            'employeeIdCard': employeeIdCard,
+            'employeeSalary': employeeSalary,
+            'employeePhone': employeePhone,
+            'employeeEmail': employeeEmail,
+            'employeeAddress': employeeAddress,
+            'division': {'divisionId': division},
+            'educationDegree': {'educationDegreeId': educationDegree},
+            'position': {'positionId': position}
+        };
+        $.ajax({
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            url: "http://localhost:8080/restEmployee",
+            type: "PUT",
+            data: JSON.stringify(employee),
+            success: function () {
+                $("#updateEmployee").modal('hide');
+                alert("Update successfully!");
+                re();
+            }
         });
     });
 
@@ -471,12 +480,11 @@
                 document.getElementById("employeeEducationDegreeU").value = data.educationDegree.educationDegreeId;
                 document.getElementById("employeePositionU").value = data.position.positionId;
                 document.getElementById("idUpdate").value = id;
-                console.log(data);
             }
         })
     }
 
-    function re(){
+    function re() {
         location.reload()
     }
 

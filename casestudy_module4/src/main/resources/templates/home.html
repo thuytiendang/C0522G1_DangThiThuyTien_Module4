@@ -13,18 +13,16 @@
     <header th:fragment="header" class="sticky-top">
         <div class="row bg-success">
             <div class="bg-gray-500 d-flex myCSS my-2" style="height: 100px">
-                <div class="col-lg-2 left">
-        <span style="font-size: 40px;color: black"><a class="navbar-brand" href="/" style="width: 70% ; height: 70%"><i
-                class="fa-solid fa-list"></i></a></span>
-                    <span style="color: #0a58ca; border: seagreen; font-size: x-large">FURAMA</span>
-                </div>
-                <div class="col-lg-6 mid " style="text-align: center">
-                    <img src="https://www.furama.com/images/LOGOFurama_4C_Normal.png" height="80%" width="80%" alt="">
+                <div class="col-lg-8 left">
+                    <img class="h-100 p-4" src="https://www.furama.com/images/LOGOFurama_4C_Normal.png" alt="">
+                    <img class="ms-2 ps-2 "
+                         src="https://furamavietnam.com/wp-content/uploads/2019/02/Ariyana-Tourism-Complex-02-2.png"
+                         alt="" height="70%" width="60%">
                 </div>
                 <div class="col-lg-4 right">
                     <div class="row">
                         <div class="col-lg-6" id="navbarContent">
-                            <ul class=" me-auto mb-2 mb-lg-0">
+                            <ul class=" me-auto mb-2 mb-lg-0 ">
                                 <li class="nav-item dropdown ms-3">
                                     <a class="nav-link dropdown-toggle " href="#" role="button"
                                        data-bs-toggle="dropdown"
@@ -38,17 +36,17 @@
                             </ul>
                         </div>
                         <div class="col-lg-2 col-md-2">
-             <span style="font-size: 40px;color: #b28356"><a class="navbar-brand" href="/"
+             <span style="font-size: 40px;color: #ffffff"><a class="navbar-brand" href="/"
                                                              style="width: 70% ; height: 70%">
                  <i class="fa-brands fa-instagram"></i></a></span>
                         </div>
                         <div class="col-lg-2 col-md-2">
-             <span style="font-size: 40px;color: #b28356"><a class="navbar-brand" href="/"
+             <span style="font-size: 40px;color: #ffffff"><a class="navbar-brand" href="/"
                                                              style="width: 70% ; height: 70%">
                  <i class="fa-brands fa-facebook"></i></a></span>
                         </div>
                         <div class="col-lg-2 col-md-2">
-             <span style="font-size: 40px;color: #b28356"><a class="navbar-brand" href="/"
+             <span style="font-size: 40px;color: #ffffff"><a class="navbar-brand" href="/"
                                                              style="width: 70% ; height: 70%">
                  <i class="fa-brands fa-youtube"></i></a></span>
                         </div>
@@ -100,16 +98,10 @@
                                aria-expanded="false">Contract</a>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="/contract/list">Contract list</a></li>
-                                <li><a class="dropdown-item" href="/contract/create">Add new Contract</a></li>
+<!--                                <li><a class="dropdown-item" href="/contract/create">Add new Contract</a></li>-->
                             </ul>
                         </li>
                     </ul>
-
-                    <form class="d-flex my-2" role="search">
-                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                        <button class="btn btn-outline-success" type="submit">
-                            <i class="fa-solid fa-magnifying-glass"></i></button>
-                    </form>
                 </div>
             </div>
         </nav>
@@ -148,7 +140,7 @@
             <span class="visually-hidden">Next</span>
         </button>
     </div>
-    <div class="mt-5-2 mb-5">
+    <div class="mt-4 mb-3">
         <div class="row">
             <div class="col-lg-3">
                 <p style="text-align: center; color: #8c6a4a; font-size: xx-large">KHU NGHỈ DƯỠNG ĐẲNG CẤP THẾ GIỚI,
@@ -190,15 +182,12 @@
     </div>
 
     <div id="carouselExampleControls" class="carousel slide m-5" data-bs-ride="carousel">
-        <div class="carousel-inner" style="height: 700px">
+        <div class="carousel-inner" style="height: 500px">
             <div class="carousel-item active">
-                <img src="https://foto.hrsstatic.com/fotos/0/3/545/350/80/000000/http%3A%2F%2Ffoto-origin.hrsstatic.com%2Ffoto%2F0%2F8%2F9%2F5%2F089508%2F089508_su_19440247.jpg/kEUk9VxyMmr3ezajkyY44A%3D%3D/2048,1079/6/Furama_Resort_Danang-Da_Nang-Suite-11-89508.jpg"
-                     class="d-block w-100" alt="...">
-            </div>
-            <div class="carousel-item">
                 <img src="https://cdn1.ivivu.com/iVivu/2019/11/28/13/three-bedroom-pool-villa-2-cr-800x450.jpg"
                      class="d-block w-100" alt="...">
             </div>
+
             <div class="carousel-item">
                 <img src="https://cdn1.ivivu.com/iVivu/2019/11/28/13/two-bedroom-pool-villa-cr-800x450.jpg"
                      class="d-block w-100" alt="...">
@@ -233,21 +222,21 @@
     </div>
 
 
-    <div class="row mt-5 bg-success">
-        <div class="col-2 mt-3"><p class="float-end">Follow this page</p></div>
+    <div class="row mt-5 bg-success ">
+        <div class="col-2 mt-3"><p class="float-end text-light">Follow this page</p></div>
         <div class="col-9 mt-3">
-            <img
-                    src="https://c.s-microsoft.com/en-us/CMSImages/facebook-gray.svg?version=0b3295fd-6d09-d5a5-af3b-498b3ad72a95"
-                    alt="" width="30px" height="30px">
-            <img
-                    src="https://c.s-microsoft.com/en-us/CMSImages/twitter-gray.svg?version=9b4af76e-357b-33af-9bf5-7b5dbf882330"
-                    alt="" width="30px" height="30px">
-            <img
-                    src="https://c.s-microsoft.com/en-us/CMSImages/intagram.svg?version=3571ba35-1fde-08f2-8396-dd1969712cd8"
-                    alt="" width="30px" height="30px">
-            <img
-                    src="https://c.s-microsoft.com/en-us/CMSImages/linkedin-black.svg?version=9e943abf-c655-434c-6e60-91aed3e9ea11"
-                    alt="" width="30px" height="30px">
+            <span style="font-size: 40px;color: black"><a class="navbar-brand" href="/"
+                                                          style="width: 70% ; height: 70%">
+                <i class="fa-brands fa-facebook"></i></a></span>
+            <span style="font-size: 40px;color: black"><a class="navbar-brand" href="/"
+                                                          style="width: 70% ; height: 70%">
+                 <i class="fa-brands fa-square-instagram"></i></a></span>
+            <span style="font-size: 40px;color: black"><a class="navbar-brand" href="/"
+                                                          style="width: 70% ; height: 70%">
+                 <i class="fa-brands fa-swift"></i></a></span>
+            <span style="font-size: 40px;color: black"><a class="navbar-brand" href="/"
+                                                          style="width: 70% ; height: 70%">
+                <i class="fa-brands fa-google-plus"></i></a></span>
         </div>
     </div>
     <div class="row container-fluid ">

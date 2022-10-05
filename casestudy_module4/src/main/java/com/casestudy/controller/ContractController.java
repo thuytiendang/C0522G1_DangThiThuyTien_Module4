@@ -12,8 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -41,20 +41,37 @@ public class ContractController {
     private ICustomerService iCustomerService;
 
     @GetMapping("/list")
-    public String showList(Model model, Pageable pageable) {
-        List<Contract> contractList = iContractService.findAll();
+    public String showList(Model model) {
         model.addAttribute("contractList", iContractService.findAllDto());
         model.addAttribute("attachFacilityList", iAttachFacilityService.findAll());
         model.addAttribute("contractDetailList", iContractDetailService.findAll());
-        model.addAttribute("facilityList", iFacilityService.showListFacility(pageable));
-        model.addAttribute("employeeList", iEmployeeService.showListEmployee(pageable));
-        model.addAttribute("customerList", iCustomerService.showCustomerList(pageable));
+        model.addAttribute("facilityList", iFacilityService.showListFacility());
+        model.addAttribute("employeeList", iEmployeeService.showListEmployee());
+        model.addAttribute("customerList", iCustomerService.showCustomerList());
         model.addAttribute("contract", new Contract());
         model.addAttribute("contractDetail", new ContractDetail());
-
-        LocalDate minAge = LocalDate.now();
-        model.addAttribute("minAge", minAge);
-
         return "contract/list";
+    }
+
+    @PostMapping("/add")
+    public String save(@ModelAttribute Contract contract, RedirectAttributes redirectAttributes) {
+        iContractService.save(contract);
+        redirectAttributes.addFlashAttribute("message", "Add new contract successfully!");
+
+        return "redirect:/contract/list";
+    }
+
+    @PostMapping("/add-contract-detail")
+    public String saveDetail(@ModelAttribute ContractDetail contractDetail, RedirectAttributes redirectAttributes) {
+        iContractDetailService.save(contractDetail);
+        redirectAttributes.addFlashAttribute("message", "Add new detail contract successfully!");
+
+        return "redirect:/contract/list";
+    }
+
+    @GetMapping("/{id}")
+    public String showAttachFacility(@PathVariable Integer id, Model model) {
+        model.addAttribute("contractDetails", iContractDetailService.showAll(id));
+        return "contract/attachFacilityList";
     }
 }

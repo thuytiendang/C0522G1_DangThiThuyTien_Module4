@@ -10,16 +10,14 @@
 </head>
 <body>
 <div th:replace="~{/home::header}"></div>
-<h2 class="text-center fw-bold">Update Facility</h2>
-
-<p class="text-center mt-3"><a href="/"><i class="fa-solid fa-house-chimney h5 mx-1"></i> Back to HOME</a></p>
+<h2 class="text-center fw-bold text-success">UPDATE FACILITY</h2>
 
 <p class="text-center">
     <a href="/facility/list"><i class="fa-solid fa-backward"></i> Back to Facility list</a>
 </p>
 
 <div class="d-flex justify-content-center">
-    <form class="w-50 border border-2 border-success p-3 bg-info bg-opacity-50 rounded" th:action="@{/facility/update}"
+    <form class="w-50 border border-2 border-success p-3 bg-success bg-opacity-50 rounded" th:action="@{/facility/update}"
           method="post" th:object="${facility}">
 
         <input type="hidden" th:field="*{facilityId}" readonly/>
@@ -136,7 +134,7 @@
         <div class="mt-3 form-group">
             <label class="h6" for="rentType">Rent Type:</label>
             <div class="input-group">
-                <select id="rentType" class="form-control" name="rentTypeId" th:field="*{rentType}">
+                <select id="rentType" class="form-select" name="rentTypeId" th:field="*{rentType}">
                     <option th:each="item : ${rentTypes}" th:value="${item.rentTypeId}"
                             th:text="${item.rentTypeName}"
                             th:selected="${item.rentTypeId == facility.rentType.rentTypeId}"></option>

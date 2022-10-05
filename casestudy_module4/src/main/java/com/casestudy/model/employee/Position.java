@@ -1,5 +1,7 @@
 package com.casestudy.model.employee;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Set;
 
@@ -11,6 +13,7 @@ public class Position {
     private int positionId;
     private String positionName;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "position")
     private Set<Employee> employees;
 

@@ -27,36 +27,48 @@
 <body>
 <div th:replace="~{/home::header}"></div>
 <div class="p-3">
-    <h2 class="text-center fw-bold text-info">CUSTOMER LIST</h2>
+    <h2 class="text-center fw-bold text-success">CUSTOMER LIST</h2>
 
-    <a th:href="@{/customer/create}">
-        <button class="btn btn-success btn-sm my-2">
-            <span class="fa-solid fa-person-circle-plus text-light h5 my-auto me-1"></span> Add new Customer
-        </button>
-    </a>
-    <form th:action="@{/customer/list}" class="my-3" method="get">
-        <input type="text" name="nameSearch" th:value="${nameSearch}" placeholder="nameSearch">
-        <input type="text" name="addressSearch" th:value="${addressSearch}" placeholder="addressSearch">
-        <input type="text" name="phoneSearch" th:value="${phoneSearch}" placeholder="phoneSearch">
-        <button class="btn btn-outline-success" type="submit">
-            <i class="fa-solid fa-magnifying-glass"></i></button>
-    </form>
     <div class="notify" style="text-align: center; color: red">
         <div th:if="${mess}">
             <span th:text="${mess}"></span>
         </div>
     </div>
+
+    <nav class="navbar navbar-expand-lg pb-0 mb-0">
+        <div class="container-fluid">
+            <a th:href="@{/customer/create}">
+                <button class="btn btn-success btn-outline-secondary btn-sm">
+                    <span class="fa-solid fa-person-circle-plus text-light h5 my-auto me-1"></span>
+                    <span class="text-light"> Add new Customer</span>
+                </button>
+            </a>
+
+            <form class="d-flex my-2" role="search" th:action="@{/customer/list}">
+                <input class="form-control me-2" type="text" placeholder="Input name" aria-label="Search"
+                       name="nameSearch" th:value="${nameSearch}">
+
+                <input class="form-control me-2" type="text" placeholder="Input address" aria-label="Search"
+                       name="addressSearch" th:value="${addressSearch}">
+
+
+                <input class="form-control me-2" type="text" placeholder="Input phone number" aria-label="Search"
+                       name="phoneSearch" th:value="${phoneSearch}">
+
+                <button class="btn btn-outline-success" type="submit" name="action" value="search">
+                    <i class="fa-solid fa-magnifying-glass"></i></button>
+            </form>
+        </div>
+    </nav>
+
     <table class="table table-striped table-bordered" id="customerTable">
         <thead>
-        <tr class="text-center bg-info">
+        <tr class="text-center bg-success">
             <th>Serial</th>
             <th>Name</th>
-            <!--            <th>Date of Birth</th>-->
             <th>Gender</th>
             <th>Id card</th>
             <th>Phone number</th>
-            <!--            <th>Email</th>-->
-            <!--            <th>Address</th>-->
             <th>Customer type</th>
             <th>Update</th>
             <th>Delete</th>
@@ -67,13 +79,10 @@
         <tr th:each="customer, status : ${customerList}">
             <td th:text="${customerList.number * 5 + status.count}"></td>
             <td th:text="${customer.customerName}"></td>
-            <!--            <td th:text="${customer.customerBirthday}"></td>-->
             <td th:if="${customer.customerGender== '1'}" th:text="Male"></td>
             <td th:if="${customer.customerGender == '0'}" th:text="Female"></td>
             <td th:text="${customer.customerIdCard}"></td>
             <td th:text="${customer.customerPhone}"></td>
-            <!--            <td th:text="${customer.customerEmail}"></td>-->
-            <!--            <td th:text="${customer.customerAddress}"></td>-->
             <td th:text="${customer.customerType.customerTypeName}"></td>
             <td class="text-center">
                 <a th:href="@{/customer/edit/__${customer.customerId}__}">
@@ -86,12 +95,6 @@
                     <span class="text-danger"><i class="fa-solid fa-trash-can"></i></span>
                 </a>
             </td>
-            <!--            <td class="text-center">-->
-            <!--                <a data-bs-toggle="modal" data-bs-target="#deleteCustomer"-->
-            <!--                   th:attr="onclick=|deleteCustomer('${customer}')|">-->
-            <!--                    <span><i class="fa-solid fa-trash-can"></i></span>-->
-            <!--                </a>-->
-            <!--            </td>-->
             <td class="text-center">
                 <a th:attr="onclick=|details('${customer.customerName}', '${customer.customerBirthday}',
                 '${customer.customerGender}', '${customer.customerIdCard}', '${customer.customerPhone}',
@@ -181,16 +184,27 @@
         </div>
     </div>
 
-    <a href="/"><i class="fa-solid fa-house-chimney h5 mx-1"></i> Back to HOME</a>
-    <div>
-        <a th:href="@{'/customer/list'(page=${customerList.number - 1},
-    nameSearch=${nameSearch}, addressSearch=${addressSearch}, phoneSearch=${phoneSearch})}"
-           th:if="${customerList.hasPrevious()}">Previous</a>
-        <span th:text="${customerList.number + 1}"></span>
-        <span th:text="${customerList.totalPages}"></span>
-        <a th:href="@{'/customer/list'(page=${customerList.number + 1}, nameSearch=${nameSearch}, addressSearch=${addressSearch}, phoneSearch=${phoneSearch})}"
-           th:if="${customerList.hasNext()}">Next</a>
-    </div>
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            <li class="page-item">
+                <a class="page-link" th:href="@{'/customer/list'(page=${customerList.number - 1}, nameSearch=${nameSearch},
+                 addressSearch=${addressSearch}, phoneSearch=${phoneSearch})}"
+                   th:if="${customerList.hasPrevious()}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo; Previous</span>
+                </a>
+            </li>
+            <li class="page-item"><a class="page-link" th:text="${customerList.number + 1}"></a></li>
+            <li class="page-item"><a class="page-link" th:text="${customerList.totalPages}"></a></li>
+            <li class="page-item">
+                <a class="page-link"
+                   th:href="@{'/customer/list'(page=${customerList.number + 1}, nameSearch=${nameSearch},
+                   addressSearch=${addressSearch}, phoneSearch=${phoneSearch})}"
+                   th:if="${customerList.hasNext()}" aria-label="Next">
+                    <span aria-hidden="true">Next &raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
 </div>
 
 <script>

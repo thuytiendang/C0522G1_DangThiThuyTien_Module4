@@ -27,37 +27,53 @@
 <body>
 <div th:replace="~{/home::header}"></div>
 <div class="p-3">
-    <h2 class="text-center fw-bold text-info">FACILITY LIST</h2>
+    <h2 class="text-center fw-bold text-success">FACILITY LIST</h2>
 
-    <a th:href="@{/facility/create}">
-        <button class="btn btn-success btn-sm my-2">
-            <span class="fa-solid fa-person-circle-plus text-light h5 my-auto me-1"></span> Add new Facility
-        </button>
-    </a>
-    <form th:action="@{/facility/list}" class="my-3" method="get">
-        <input type="text" name="facilityName" th:value="${facilityName}" placeholder="Input name">
-        <button class="btn btn-outline-success" type="submit">
-            <i class="fa-solid fa-magnifying-glass"></i></button>
-    </form>
     <div class="notify" style="text-align: center; color: red">
         <div th:if="${mess}">
             <span th:text="${mess}"></span>
         </div>
     </div>
 
+    <nav class="navbar navbar-expand-lg pb-0 mb-0">
+        <div class="container-fluid">
+            <a th:href="@{/facility/create}">
+                <button class="btn btn-success btn-outline-secondary btn-sm">
+                    <span class="fa-solid fa-person-circle-plus text-light h5 my-auto me-1"></span>
+                    <span class="text-light"> Add new Facility</span>
+                </button>
+            </a>
+
+            <form class="d-flex my-2" role="search" th:action="@{/facility/list}">
+                <input class="form-control me-2" type="text" placeholder="Input name" aria-label="Search"
+                       name="facilityName" th:value="${facilityName}">
+                <button class="btn btn-outline-success" type="submit" name="action" value="search">
+                    <i class="fa-solid fa-magnifying-glass"></i></button>
+            </form>
+        </div>
+    </nav>
+
+<!--    <a th:href="@{/facility/create}">-->
+<!--        <button class="btn btn-success btn-sm my-2">-->
+<!--            <span class="fa-solid fa-person-circle-plus text-light h5 my-auto me-1"></span> Add new Facility-->
+<!--        </button>-->
+<!--    </a>-->
+<!--    <form th:action="@{/facility/list}" class="my-3" method="get">-->
+<!--        <input type="text" name="facilityName" th:value="${facilityName}" placeholder="Input name">-->
+<!--        <button class="btn btn-outline-success" type="submit">-->
+<!--            <i class="fa-solid fa-magnifying-glass"></i></button>-->
+<!--    </form>-->
+
+
     <table class="table table-striped table-bordered" id="facilityTable">
         <thead>
-        <tr class="text-center bg-info">
+        <tr class="text-center bg-success">
             <th>Serial</th>
             <th>Name</th>
-<!--            <th>Area</th>-->
             <th>Cost</th>
             <th>Max people</th>
             <th>Standard room</th>
-<!--            <th>Other convenience</th>-->
-<!--            <th>Pool area</th>-->
             <th>Floor</th>
-<!--            <th>Facility free</th>-->
             <th>Type of rent</th>
             <th>Type of facility</th>
             <th>Update</th>
@@ -69,14 +85,10 @@
         <tr th:each="facility, status : ${facilityList}">
             <td th:text="${facilityList.number * 5 + status.count}"></td>
             <td th:text="${facility.facilityName}"></td>
-<!--            <td th:text="${facility.facilityArea}"></td>-->
             <td th:text="${facility.facilityCost}"></td>
             <td th:text="${facility.maxPeople}"></td>
             <td th:text="${facility.standardRoom}"></td>
-<!--            <td th:text="${facility.descriptionOtherConvenience}"></td>-->
-<!--            <td th:text="${facility.poolArea}"></td>-->
             <td th:text="${facility.numberOfFloors}"></td>
-<!--            <td th:text="${facility.facilityFree}"></td>-->
             <td th:text="${facility.rentType.rentTypeName}"></td>
             <td th:text="${facility.facilityType.facilityTypeName}"></td>
             <td class="text-center">
@@ -192,17 +204,25 @@
         </div>
     </div>
 
-    <a href="/"><i class="fa-solid fa-house-chimney h5 mx-1"></i> Back to HOME</a>
-
-    <div>
-        <a th:href="@{'/facility/list'(page=${facilityList.number - 1},
-    facilityName=${facilityName})}"
-           th:if="${facilityList.hasPrevious()}">Previous</a>
-        <span th:text="${facilityList.number + 1}"></span>
-        <span th:text="${facilityList.totalPages}"></span>
-        <a th:href="@{'/facility/list'(page=${facilityList.number + 1}, facilityName=${facilityName})}"
-           th:if="${facilityList.hasNext()}">Next</a>
-    </div>
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            <li class="page-item">
+                <a class="page-link" th:href="@{'/facility/list'(page=${facilityList.number - 1},
+                   facilityName=${facilityName})}"
+                   th:if="${facilityList.hasPrevious()}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo; Previous</span>
+                </a>
+            </li>
+            <li class="page-item"><a class="page-link" th:text="${facilityList.number + 1}"></a></li>
+            <li class="page-item"><a class="page-link" th:text="${facilityList.totalPages}"></a></li>
+            <li class="page-item">
+                <a class="page-link" th:href="@{'/facility/list'(page=${facilityList.number + 1}, facilityName=${facilityName})}"
+                   th:if="${facilityList.hasNext()}" aria-label="Next">
+                    <span aria-hidden="true">Next &raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
 </div>
 
 <script>

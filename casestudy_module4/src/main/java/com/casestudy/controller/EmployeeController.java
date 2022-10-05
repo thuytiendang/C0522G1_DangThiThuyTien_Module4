@@ -58,13 +58,6 @@ public class EmployeeController {
         return "employee/list";
     }
 
-//    @PostMapping("/save")
-//    public String createEmployee(@RequestBody Employee employee){
-//        iEmployeeService.addNewEmployee(employee);
-//        return "redirect:/employee/list";
-//    }
-
-
     @GetMapping("/delete")
     public String deleteFacility(@RequestParam int id, RedirectAttributes redirectAttributes){
         iEmployeeService.deleteLogical(id);
