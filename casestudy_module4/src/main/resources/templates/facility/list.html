@@ -25,7 +25,10 @@
     </style>
 </head>
 <body>
+
 <div th:replace="~{/home::header}"></div>
+
+<div class="container-fluid">
 <div class="p-3">
     <h2 class="text-center fw-bold text-success">FACILITY LIST</h2>
 
@@ -213,8 +216,17 @@
                     <span aria-hidden="true">&laquo; Previous</span>
                 </a>
             </li>
-            <li class="page-item"><a class="page-link" th:text="${facilityList.number + 1}"></a></li>
-            <li class="page-item"><a class="page-link" th:text="${facilityList.totalPages}"></a></li>
+            <li class="page-item"><a class="page-link" th:text="${facilityList.number }"
+                                     th:href="@{'/facility/list'(page=${facilityList.number - 1},
+                   facilityName=${facilityName})}"
+                                     th:if="${facilityList.hasPrevious()}"></a></li>
+
+            <li class="page-item"><a class="page-link" th:text="${facilityList.number +1 }"></a></li>
+
+            <li class="page-item"><a class="page-link" th:text="${facilityList.number +2}"
+                                     th:href="@{'/facility/list'(page=${facilityList.number + 1}, facilityName=${facilityName})}"
+                                     th:if="${facilityList.hasNext()}"></a></li>
+<!--            <li class="page-item"><a class="page-link" th:text="${facilityList.totalPages}"></a></li>-->
             <li class="page-item">
                 <a class="page-link" th:href="@{'/facility/list'(page=${facilityList.number + 1}, facilityName=${facilityName})}"
                    th:if="${facilityList.hasNext()}" aria-label="Next">
@@ -245,5 +257,6 @@
         document.getElementById("facilityType").innerText = facilityType;
     }
 </script>
+</div>
 </body>
 </html>

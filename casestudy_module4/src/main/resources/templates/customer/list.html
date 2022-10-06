@@ -25,7 +25,9 @@
     </style>
 </head>
 <body>
+
 <div th:replace="~{/home::header}"></div>
+<div class="container-fluid">
 <div class="p-3">
     <h2 class="text-center fw-bold text-success">CUSTOMER LIST</h2>
 
@@ -193,8 +195,15 @@
                     <span aria-hidden="true">&laquo; Previous</span>
                 </a>
             </li>
+            <li class="page-item"><a class="page-link" th:text="${customerList.number }"
+                                     th:href="@{'/customer/list'(page=${customerList.number - 1}, nameSearch=${nameSearch},
+                 addressSearch=${addressSearch}, phoneSearch=${phoneSearch})}"
+                                     th:if="${customerList.hasPrevious()}"></a></li>
             <li class="page-item"><a class="page-link" th:text="${customerList.number + 1}"></a></li>
-            <li class="page-item"><a class="page-link" th:text="${customerList.totalPages}"></a></li>
+            <li class="page-item"><a class="page-link" th:text="${customerList.number + 2}"
+                                     th:href="@{'/customer/list'(page=${customerList.number + 1}, nameSearch=${nameSearch},
+                   addressSearch=${addressSearch}, phoneSearch=${phoneSearch})}"
+                                     th:if="${customerList.hasNext()}"></a></li>
             <li class="page-item">
                 <a class="page-link"
                    th:href="@{'/customer/list'(page=${customerList.number + 1}, nameSearch=${nameSearch},
@@ -234,5 +243,6 @@
     //     document.getElementById("nameDelete").innerText = value.customerName;
     // }
 </script>
+</div>
 </body>
 </html>
